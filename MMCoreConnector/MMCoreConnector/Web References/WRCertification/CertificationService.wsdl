@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tns="http://operations.ehealth.mproxy.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" name="CertificationService" targetNamespace="http://operations.ehealth.mproxy.cmp.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns="http://jaxb.dev.java.net/array" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://jaxb.dev.java.net/array" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="stringArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://operations.ehealth.mproxy.cmp.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="mproxyOperationResult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MPROXY_RESULT_OK" />
+          <xs:enumeration value="MPROXY_RESULT_FAILED" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createEmptyKeyStore">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="generateEncryptionKeysResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="verifyEncodingCertificate">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="retrieveCertificateResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="getLastSuccessfullOperation">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="verifyEncodingCertificateResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="processEtkResponseResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="createEmptyKeyStoreResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="generateAuthenticationKeys">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+    <wsdl:part name="arg2" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="prepareEtkRequest">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="prepareAuthenticationCertificateRequestResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="deleteKeyStore">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteKeyStoreResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="getLastSuccessfullOperationResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="retrieveCertificate">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+    <wsdl:part name="alias" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="prepareEtkRequestResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="importPKCS12KeyStore">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+    <wsdl:part name="importLocalFileFullName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="verifyAuthenticationCertificateResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="processAuthenticationCertificateResponse">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+    <wsdl:part name="authenticationCertificate" type="xsd:string" />
+    <wsdl:part name="CAauthenticationCertificateChain" type="ns1:stringArray" />
+  </wsdl:message>
+  <wsdl:message name="removeCertificationData">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="generateEncryptionKeys">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getKeyStoreRootPathResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="verifyEtk">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="verifyEtkResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="verifyAuthenticationCertificate">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="processEtkResponse">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="ETK" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getKeyStoreRootPath" />
+  <wsdl:message name="importPKCS12KeyStoreResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="removeCertificationDataResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="generateAuthenticationKeysResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="prepareAuthenticationCertificateRequest">
+    <wsdl:part name="keyLabel" type="xsd:string" />
+    <wsdl:part name="pinCode" type="xsd:string" />
+    <wsdl:part name="idCardSignature" type="xsd:string" />
+    <wsdl:part name="CA" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="processAuthenticationCertificateResponseResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:portType name="Certification">
+    <wsdl:operation name="processAuthenticationCertificateResponse">
+      <wsdl:input name="processAuthenticationCertificateResponse" message="tns:processAuthenticationCertificateResponse" />
+      <wsdl:output name="processAuthenticationCertificateResponseResponse" message="tns:processAuthenticationCertificateResponseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeCertificationData">
+      <wsdl:input name="removeCertificationData" message="tns:removeCertificationData" />
+      <wsdl:output name="removeCertificationDataResponse" message="tns:removeCertificationDataResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="importPKCS12KeyStore">
+      <wsdl:input name="importPKCS12KeyStore" message="tns:importPKCS12KeyStore" />
+      <wsdl:output name="importPKCS12KeyStoreResponse" message="tns:importPKCS12KeyStoreResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="retrieveCertificate">
+      <wsdl:input name="retrieveCertificate" message="tns:retrieveCertificate" />
+      <wsdl:output name="retrieveCertificateResponse" message="tns:retrieveCertificateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLastSuccessfullOperation">
+      <wsdl:input name="getLastSuccessfullOperation" message="tns:getLastSuccessfullOperation" />
+      <wsdl:output name="getLastSuccessfullOperationResponse" message="tns:getLastSuccessfullOperationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getKeyStoreRootPath">
+      <wsdl:input name="getKeyStoreRootPath" message="tns:getKeyStoreRootPath" />
+      <wsdl:output name="getKeyStoreRootPathResponse" message="tns:getKeyStoreRootPathResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="prepareEtkRequest">
+      <wsdl:input name="prepareEtkRequest" message="tns:prepareEtkRequest" />
+      <wsdl:output name="prepareEtkRequestResponse" message="tns:prepareEtkRequestResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="processEtkResponse">
+      <wsdl:input name="processEtkResponse" message="tns:processEtkResponse" />
+      <wsdl:output name="processEtkResponseResponse" message="tns:processEtkResponseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteKeyStore">
+      <wsdl:input name="deleteKeyStore" message="tns:deleteKeyStore" />
+      <wsdl:output name="deleteKeyStoreResponse" message="tns:deleteKeyStoreResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generateEncryptionKeys">
+      <wsdl:input name="generateEncryptionKeys" message="tns:generateEncryptionKeys" />
+      <wsdl:output name="generateEncryptionKeysResponse" message="tns:generateEncryptionKeysResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="verifyEtk">
+      <wsdl:input name="verifyEtk" message="tns:verifyEtk" />
+      <wsdl:output name="verifyEtkResponse" message="tns:verifyEtkResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="verifyEncodingCertificate">
+      <wsdl:input name="verifyEncodingCertificate" message="tns:verifyEncodingCertificate" />
+      <wsdl:output name="verifyEncodingCertificateResponse" message="tns:verifyEncodingCertificateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="verifyAuthenticationCertificate">
+      <wsdl:input name="verifyAuthenticationCertificate" message="tns:verifyAuthenticationCertificate" />
+      <wsdl:output name="verifyAuthenticationCertificateResponse" message="tns:verifyAuthenticationCertificateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generateAuthenticationKeys">
+      <wsdl:input name="generateAuthenticationKeys" message="tns:generateAuthenticationKeys" />
+      <wsdl:output name="generateAuthenticationKeysResponse" message="tns:generateAuthenticationKeysResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="prepareAuthenticationCertificateRequest">
+      <wsdl:input name="prepareAuthenticationCertificateRequest" message="tns:prepareAuthenticationCertificateRequest" />
+      <wsdl:output name="prepareAuthenticationCertificateRequestResponse" message="tns:prepareAuthenticationCertificateRequestResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createEmptyKeyStore">
+      <wsdl:input name="createEmptyKeyStore" message="tns:createEmptyKeyStore" />
+      <wsdl:output name="createEmptyKeyStoreResponse" message="tns:createEmptyKeyStoreResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CertificationServiceSoapBinding" type="tns:Certification">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="processAuthenticationCertificateResponse">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="processAuthenticationCertificateResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="processAuthenticationCertificateResponseResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="importPKCS12KeyStore">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="importPKCS12KeyStore">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="importPKCS12KeyStoreResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeCertificationData">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="removeCertificationData">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="removeCertificationDataResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveCertificate">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="retrieveCertificate">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="retrieveCertificateResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLastSuccessfullOperation">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getLastSuccessfullOperation">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="getLastSuccessfullOperationResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getKeyStoreRootPath">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getKeyStoreRootPath">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="getKeyStoreRootPathResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="prepareEtkRequest">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="prepareEtkRequest">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="prepareEtkRequestResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="processEtkResponse">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="processEtkResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="processEtkResponseResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteKeyStore">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="deleteKeyStore">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="deleteKeyStoreResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateEncryptionKeys">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="generateEncryptionKeys">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="generateEncryptionKeysResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verifyEtk">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="verifyEtk">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="verifyEtkResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verifyAuthenticationCertificate">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="verifyAuthenticationCertificate">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="verifyAuthenticationCertificateResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verifyEncodingCertificate">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="verifyEncodingCertificate">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="verifyEncodingCertificateResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateAuthenticationKeys">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="generateAuthenticationKeys">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="generateAuthenticationKeysResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="prepareAuthenticationCertificateRequest">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="prepareAuthenticationCertificateRequest">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="prepareAuthenticationCertificateRequestResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createEmptyKeyStore">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createEmptyKeyStore">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="createEmptyKeyStoreResponse">
+        <soap:body use="literal" namespace="http://operations.ehealth.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CertificationService">
+    <wsdl:port name="CertificationPort" binding="tns:CertificationServiceSoapBinding">
+      <soap:address location="http://localhost:8088/certification" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

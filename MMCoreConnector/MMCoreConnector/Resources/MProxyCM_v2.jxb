@@ -1,0 +1,12 @@
+<jxb:bindings version="1.0" 
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc">
+  <jxb:bindings schemaLocation="MProxyCM_v2.xsd" node="/xs:schema">
+    <jxb:globalBindings>
+      <xjc:serializable uid="101" />
+    </jxb:globalBindings>
+  </jxb:bindings>
+</jxb:bindings>
+
+<!--xjc  -p com.cmp.kernel.common.message.version2 -extension MProxyCM_v2.xsd -b MProxyCM_v2.jxb--> 

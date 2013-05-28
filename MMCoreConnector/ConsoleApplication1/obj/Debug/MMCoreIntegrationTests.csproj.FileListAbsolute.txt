@@ -1,0 +1,7 @@
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\bin\Debug\MMCoreIntegrationTests.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\bin\Debug\MMCoreIntegrationTests.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\obj\Debug\MMCoreIntegrationTests.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\obj\Debug\MMCoreIntegrationTests.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\bin\Debug\MMCoreConnector.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\ConsoleApplication1\bin\Debug\MMCoreConnector.pdb

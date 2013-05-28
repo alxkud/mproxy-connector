@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mproxyMessage xmlns:ns2="com.cmp.mproxy.message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:mproxyMessage">
+    <version>2</version>
+    <receiver>
+        <uid>R</uid>
+    </receiver>
+    <sender>
+        <uid>S</uid>
+    </sender>
+    <attachments>
+        <attachment>
+            <uri>c:/test.txt</uri>
+                 </attachment>
+    </attachments>
+</mproxyMessage>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMCoreConnector", "MMCoreConnector\MMCoreConnector.csproj", "{56C72ED4-D1CD-4A56-B789-9A66BE520227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMCoreIntegrationTests", "ConsoleApplication1\MMCoreIntegrationTests.csproj", "{C4AE140F-AD6C-4C2F-B670-46FE9B2CB3B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56C72ED4-D1CD-4A56-B789-9A66BE520227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C72ED4-D1CD-4A56-B789-9A66BE520227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C72ED4-D1CD-4A56-B789-9A66BE520227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C72ED4-D1CD-4A56-B789-9A66BE520227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4AE140F-AD6C-4C2F-B670-46FE9B2CB3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4AE140F-AD6C-4C2F-B670-46FE9B2CB3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4AE140F-AD6C-4C2F-B670-46FE9B2CB3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4AE140F-AD6C-4C2F-B670-46FE9B2CB3B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

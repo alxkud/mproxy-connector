@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="http://session.kernel.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AccountService" targetNamespace="http://session.kernel.cmp.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://session.kernel.cmp.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Exception" type="tns:Exception" />
+      <xs:complexType name="Exception">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyOperationStatusPerson" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="value" nillable="true" type="tns:person" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="person">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ack" type="xs:string" />
+          <xs:element minOccurs="0" name="authCertificate" type="xs:string" />
+          <xs:element minOccurs="0" name="autocertificationActive" type="xs:string" />
+          <xs:element name="boolAck" type="xs:boolean" />
+          <xs:element minOccurs="0" name="caDomain" type="xs:string" />
+          <xs:element name="certified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="city" type="xs:string" />
+          <xs:element minOccurs="0" name="commercialAction" type="xs:string" />
+          <xs:element minOccurs="0" name="country" type="xs:string" />
+          <xs:element minOccurs="0" name="description" type="xs:string" />
+          <xs:element minOccurs="0" name="dmi" type="xs:string" />
+          <xs:element minOccurs="0" name="emailForward" type="xs:string" />
+          <xs:element minOccurs="0" name="enabled" type="xs:string" />
+          <xs:element minOccurs="0" name="encCertificate" type="xs:string" />
+          <xs:element minOccurs="0" name="encodingType" type="xs:string" />
+          <xs:element minOccurs="0" name="etk" type="xs:string" />
+          <xs:element minOccurs="0" name="fax" type="xs:string" />
+          <xs:element minOccurs="0" name="firstName" type="xs:string" />
+          <xs:element minOccurs="0" name="inami" type="xs:string" />
+          <xs:element minOccurs="0" name="institution" type="xs:string" />
+          <xs:element minOccurs="0" name="langue" type="xs:string" />
+          <xs:element minOccurs="0" name="lastName" type="xs:string" />
+          <xs:element minOccurs="0" name="lastconnectiondate" type="xs:string" />
+          <xs:element minOccurs="0" name="localeStr" type="xs:string" />
+          <xs:element minOccurs="0" name="login" type="xs:string" />
+          <xs:element minOccurs="0" name="mexiAddress" type="xs:string" />
+          <xs:element minOccurs="0" name="mexiBackup" type="xs:string" />
+          <xs:element minOccurs="0" name="mobilephone" type="xs:string" />
+          <xs:element minOccurs="0" name="oldIP" type="xs:string" />
+          <xs:element minOccurs="0" name="oldSystemId" type="xs:string" />
+          <xs:element minOccurs="0" name="packageName" type="xs:string" />
+          <xs:element minOccurs="0" name="password" type="xs:string" />
+          <xs:element minOccurs="0" name="pincode" type="xs:string" />
+          <xs:element minOccurs="0" name="pkey" type="xs:string" />
+          <xs:element minOccurs="0" name="pkeyehealth" type="xs:string" />
+          <xs:element name="principal" type="xs:boolean" />
+          <xs:element minOccurs="0" name="principalUserName" type="xs:string" />
+          <xs:element minOccurs="0" name="province" type="xs:string" />
+          <xs:element minOccurs="0" name="registrationDate" type="xs:string" />
+          <xs:element minOccurs="0" name="role" type="xs:string" />
+          <xs:element name="sender" type="xs:boolean" />
+          <xs:element name="senderInvisible" type="xs:boolean" />
+          <xs:element minOccurs="0" name="subscriptiondocs" type="xs:string" />
+          <xs:element minOccurs="0" name="telephone" type="xs:string" />
+          <xs:element minOccurs="0" name="upgraded" type="xs:string" />
+          <xs:element minOccurs="0" name="userCertificate" type="xs:string" />
+          <xs:element minOccurs="0" name="userpublic" type="xs:string" />
+          <xs:element minOccurs="0" name="usetranscodor" type="xs:string" />
+          <xs:element minOccurs="0" name="version" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="mproxyOperationResult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MPROXY_RESULT_OK" />
+          <xs:enumeration value="MPROXY_RESULT_FAILED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="searchingCriteria">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE" />
+          <xs:enumeration value="CRITERIA_INAMI" />
+          <xs:enumeration value="CRITERIA_MEXI_ADDRESS" />
+          <xs:enumeration value="CRITERIA_UID" />
+          <xs:enumeration value="CRITERIA_NISS" />
+          <xs:enumeration value="CRITERIA_LAST_NAME" />
+          <xs:enumeration value="CRITERIA_FIRST_NAME" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="searchingCriteriaArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:searchingCriteria" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="AccountEndpoint_findAccountResponse">
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
+  </message>
+  <message name="AccountEndpoint_createAccountWSResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <message name="AccountEndpoint_getCriteriaNamesListResponse">
+    <part name="return" type="tns:searchingCriteriaArray" />
+  </message>
+  <message name="AccountEndpoint_removeAccount">
+    <part name="arg0" type="xsd:string" />
+  </message>
+  <message name="AccountEndpoint_findByLoginOnDocsWS">
+    <part name="server" type="xsd:string" />
+    <part name="login" type="xsd:string" />
+  </message>
+  <message name="AccountEndpoint_findAccountByLdapSearchResponse">
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
+  </message>
+  <message name="AccountEndpoint_findAccount">
+    <part name="userId" type="xsd:string" />
+  </message>
+  <message name="AccountEndpoint_getCriteriaNamesList" />
+  <message name="Exception">
+    <part name="Exception" element="tns:Exception" />
+  </message>
+  <message name="AccountEndpoint_findByLoginOnDocsWSResponse">
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
+  </message>
+  <message name="AccountEndpoint_findAccountByCriteriaResponse">
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
+  </message>
+  <message name="AccountEndpoint_createAccountWS">
+    <part name="person" type="tns:person" />
+  </message>
+  <message name="AccountEndpoint_findAccountByCriteria">
+    <part name="criteriaId" type="xsd:string" />
+    <part name="pattern" type="xsd:string" />
+    <part name="maximumRecords" type="xsd:long" />
+  </message>
+  <message name="AccountEndpoint_findAccountByLdapSearch">
+    <part name="ldapSearchClause" type="xsd:string" />
+    <part name="maximumRecords" type="xsd:long" />
+  </message>
+  <message name="AccountEndpoint_removeAccountResponse" />
+  <portType name="AccountEndpoint">
+    <operation name="createAccountWS" parameterOrder="person">
+      <input message="tns:AccountEndpoint_createAccountWS" />
+      <output message="tns:AccountEndpoint_createAccountWSResponse" />
+    </operation>
+    <operation name="findAccount" parameterOrder="userId">
+      <input message="tns:AccountEndpoint_findAccount" />
+      <output message="tns:AccountEndpoint_findAccountResponse" />
+    </operation>
+    <operation name="findAccountByCriteria" parameterOrder="criteriaId pattern maximumRecords">
+      <input message="tns:AccountEndpoint_findAccountByCriteria" />
+      <output message="tns:AccountEndpoint_findAccountByCriteriaResponse" />
+    </operation>
+    <operation name="findAccountByLdapSearch" parameterOrder="ldapSearchClause maximumRecords">
+      <input message="tns:AccountEndpoint_findAccountByLdapSearch" />
+      <output message="tns:AccountEndpoint_findAccountByLdapSearchResponse" />
+    </operation>
+    <operation name="findByLoginOnDocsWS" parameterOrder="server login">
+      <input message="tns:AccountEndpoint_findByLoginOnDocsWS" />
+      <output message="tns:AccountEndpoint_findByLoginOnDocsWSResponse" />
+    </operation>
+    <operation name="getCriteriaNamesList">
+      <input message="tns:AccountEndpoint_getCriteriaNamesList" />
+      <output message="tns:AccountEndpoint_getCriteriaNamesListResponse" />
+    </operation>
+    <operation name="removeAccount" parameterOrder="arg0">
+      <input message="tns:AccountEndpoint_removeAccount" />
+      <output message="tns:AccountEndpoint_removeAccountResponse" />
+      <fault name="Exception" message="tns:Exception" />
+    </operation>
+  </portType>
+  <binding name="AccountEndpointBinding" type="tns:AccountEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="createAccountWS">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="findAccount">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="findAccountByCriteria">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="findAccountByLdapSearch">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="findByLoginOnDocsWS">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="getCriteriaNamesList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="removeAccount">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="AccountService">
+    <port name="AccountEndpointPort" binding="tns:AccountEndpointBinding">
+      <soap:address location="http://everest.cmpmedica.be:8080/services/Account" />
+    </port>
+  </service>
+</definitions>

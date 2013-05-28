@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="http://session.kernel.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AdaptersService" targetNamespace="http://session.kernel.cmp.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://jaxb.dev.java.net/array" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="stringArray" final="#all">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema targetNamespace="http://session.kernel.cmp.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="mproxyOperationResult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MPROXY_RESULT_OK" />
+          <xs:enumeration value="MPROXY_RESULT_FAILED" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="AdaptersEndpoint_retrieveCaAuthCertChainResponse">
+    <part name="return" type="ns1:stringArray" />
+  </message>
+  <message name="AdaptersEndpoint_processEtkResponseResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <message name="AdaptersEndpoint_retrieveEtkResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <message name="AdaptersEndpoint_processEtkResponse">
+    <part name="keyLabel" type="xsd:string" />
+    <part name="ETK" type="xsd:string" />
+  </message>
+  <message name="AdaptersEndpoint_processEtkRequest">
+    <part name="keyLabel" type="xsd:string" />
+    <part name="authenticationCertificate" type="xsd:string" />
+    <part name="encodingCertificate" type="xsd:string" />
+  </message>
+  <message name="AdaptersEndpoint_retrieveCaAuthCertificateResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <message name="AdaptersEndpoint_retrieveCaAuthCertificate" />
+  <message name="AdaptersEndpoint_processAuthenticationCertificateRequestResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <message name="AdaptersEndpoint_processAuthenticationCertificateRequest">
+    <part name="keyLabel" type="xsd:string" />
+    <part name="pinCode" type="xsd:string" />
+    <part name="certificateRequest" type="xsd:string" />
+  </message>
+  <message name="AdaptersEndpoint_retrieveCaAuthCertChain" />
+  <message name="AdaptersEndpoint_retrieveEtk">
+    <part name="keyLabel" type="xsd:string" />
+  </message>
+  <message name="AdaptersEndpoint_processEtkRequestResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <portType name="AdaptersEndpoint">
+    <operation name="processAuthenticationCertificateRequest" parameterOrder="keyLabel pinCode certificateRequest">
+      <input message="tns:AdaptersEndpoint_processAuthenticationCertificateRequest" />
+      <output message="tns:AdaptersEndpoint_processAuthenticationCertificateRequestResponse" />
+    </operation>
+    <operation name="processEtkRequest" parameterOrder="keyLabel authenticationCertificate encodingCertificate">
+      <input message="tns:AdaptersEndpoint_processEtkRequest" />
+      <output message="tns:AdaptersEndpoint_processEtkRequestResponse" />
+    </operation>
+    <operation name="processEtkResponse" parameterOrder="keyLabel ETK">
+      <input message="tns:AdaptersEndpoint_processEtkResponse" />
+      <output message="tns:AdaptersEndpoint_processEtkResponseResponse" />
+    </operation>
+    <operation name="retrieveCaAuthCertChain">
+      <input message="tns:AdaptersEndpoint_retrieveCaAuthCertChain" />
+      <output message="tns:AdaptersEndpoint_retrieveCaAuthCertChainResponse" />
+    </operation>
+    <operation name="retrieveCaAuthCertificate">
+      <input message="tns:AdaptersEndpoint_retrieveCaAuthCertificate" />
+      <output message="tns:AdaptersEndpoint_retrieveCaAuthCertificateResponse" />
+    </operation>
+    <operation name="retrieveEtk" parameterOrder="keyLabel">
+      <input message="tns:AdaptersEndpoint_retrieveEtk" />
+      <output message="tns:AdaptersEndpoint_retrieveEtkResponse" />
+    </operation>
+  </portType>
+  <binding name="AdaptersEndpointBinding" type="tns:AdaptersEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="processAuthenticationCertificateRequest">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="processEtkRequest">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="processEtkResponse">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="retrieveCaAuthCertChain">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="retrieveCaAuthCertificate">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="retrieveEtk">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="AdaptersService">
+    <port name="AdaptersEndpointPort" binding="tns:AdaptersEndpointBinding">
+      <soap:address location="http://everest.cmpmedica.be:8080/services/Adapters" />
+    </port>
+  </service>
+</definitions>

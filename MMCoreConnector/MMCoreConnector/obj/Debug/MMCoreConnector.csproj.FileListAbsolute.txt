@@ -1,0 +1,6 @@
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\bin\Debug\MMCoreConnector.dll.config
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\bin\Debug\MMCoreConnector.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\bin\Debug\MMCoreConnector.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\obj\Debug\MMCoreConnector.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\MMCoreConnector\MMCoreConnector\obj\Debug\MMCoreConnector.pdb

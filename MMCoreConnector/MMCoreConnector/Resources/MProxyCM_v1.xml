@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:mproxyMessage xmlns:ns1="com.cmp.mproxy.message"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="com.cmp.mproxy.message MProxyCM_v1.xsd">
+    <version>1</version>
+    <receiver>
+        <uid>Joe</uid>
+    </receiver>
+    <sender>
+        <uid>Michael.Jackson</uid>
+    </sender>
+    <attachments>
+        <attachment>
+            <uri>/tmp/dummy1.dat</uri>
+        </attachment>        
+    </attachments>
+</ns1:mproxyMessage>

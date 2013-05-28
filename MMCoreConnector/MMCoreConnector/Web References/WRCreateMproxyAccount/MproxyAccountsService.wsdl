@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="http://session.kernel.mexi.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MproxyAccountsService" targetNamespace="http://session.kernel.mexi.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://session.kernel.mexi.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="createAccount" type="tns:createAccount" />
+      <xs:element name="createAccountResponse" type="tns:createAccountResponse" />
+      <xs:complexType name="createAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="firstname" type="xs:string" />
+          <xs:element minOccurs="0" name="lastname" type="xs:string" />
+          <xs:element minOccurs="0" name="login" type="xs:string" />
+          <xs:element minOccurs="0" name="password" type="xs:string" />
+          <xs:element minOccurs="0" name="inami" type="xs:string" />
+          <xs:element minOccurs="0" name="niss" type="xs:string" />
+          <xs:element minOccurs="0" name="email" type="xs:string" />
+          <xs:element minOccurs="0" name="telephone" type="xs:string" />
+          <xs:element minOccurs="0" name="mobilePhone" type="xs:string" />
+          <xs:element minOccurs="0" name="fax" type="xs:string" />
+          <xs:element minOccurs="0" name="address" type="xs:string" />
+          <xs:element minOccurs="0" name="postalCode" type="xs:string" />
+          <xs:element minOccurs="0" name="city" type="xs:string" />
+          <xs:element minOccurs="0" name="language" type="xs:string" />
+          <xs:element minOccurs="0" name="dmi" type="tns:dmi" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createAccountResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="dmi">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AZIS" />
+          <xs:enumeration value="EPICURE" />
+          <xs:enumeration value="HEALTH_ONE" />
+          <xs:enumeration value="HIPPOCRATE" />
+          <xs:enumeration value="MBSCRIPT" />
+          <xs:enumeration value="MEDAR" />
+          <xs:enumeration value="MEDIBASE" />
+          <xs:enumeration value="MEDIBIT" />
+          <xs:enumeration value="MEDICARD" />
+          <xs:enumeration value="MEDICIS" />
+          <xs:enumeration value="MEDIDOC_CLINIDOC" />
+          <xs:enumeration value="MEDIDOC_DOS_SYSTEMS" />
+          <xs:enumeration value="MEDIGEST" />
+          <xs:enumeration value="MEDISOFT" />
+          <xs:enumeration value="MEDUS" />
+          <xs:enumeration value="MEPAS" />
+          <xs:enumeration value="OMNIWIN" />
+          <xs:enumeration value="PRAKTIS" />
+          <xs:enumeration value="PRO_DOC" />
+          <xs:enumeration value="PROGYN" />
+          <xs:enumeration value="QUADRAT" />
+          <xs:enumeration value="SOCRATE" />
+          <xs:enumeration value="SOSOEME" />
+          <xs:enumeration value="WERKAMED" />
+          <xs:enumeration value="WINDOC" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="MproxyAccountsServiceEndpoint_createAccountResponse">
+    <part name="createAccountResponse" element="tns:createAccountResponse" />
+  </message>
+  <message name="MproxyAccountsServiceEndpoint_createAccount">
+    <part name="createAccount" element="tns:createAccount" />
+  </message>
+  <portType name="MproxyAccountsServiceEndpoint">
+    <operation name="createAccount" parameterOrder="createAccount">
+      <input message="tns:MproxyAccountsServiceEndpoint_createAccount" />
+      <output message="tns:MproxyAccountsServiceEndpoint_createAccountResponse" />
+    </operation>
+  </portType>
+  <binding name="MproxyAccountsServiceEndpointBinding" type="tns:MproxyAccountsServiceEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="createAccount">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="MproxyAccountsService">
+    <port name="MproxyAccountsServiceEndpointPort" binding="tns:MproxyAccountsServiceEndpointBinding">
+      <soap:address location="http://gl-everest.lan.pcsol.be:8080/AccountsServiceSession/createMproxyAccount" />
+    </port>
+  </service>
+</definitions>

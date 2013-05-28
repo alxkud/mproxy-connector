@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="http://session.kernel.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EtkDepotAdapterService" targetNamespace="http://session.kernel.cmp.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://session.kernel.cmp.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="mproxyOperationResult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MPROXY_RESULT_OK" />
+          <xs:enumeration value="MPROXY_RESULT_FAILED" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="EtkDepotAdapterEndpoint_getEtk">
+    <part name="arg0" type="xsd:string" />
+    <part name="arg1" type="xsd:string" />
+    <part name="arg2" type="xsd:string" />
+  </message>
+  <message name="EtkDepotAdapterEndpoint_getEtkResponse">
+    <part name="return" type="tns:mproxyOperationStatus" />
+  </message>
+  <portType name="EtkDepotAdapterEndpoint">
+    <operation name="getEtk" parameterOrder="arg0 arg1 arg2">
+      <input message="tns:EtkDepotAdapterEndpoint_getEtk" />
+      <output message="tns:EtkDepotAdapterEndpoint_getEtkResponse" />
+    </operation>
+  </portType>
+  <binding name="EtkDepotAdapterEndpointBinding" type="tns:EtkDepotAdapterEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="getEtk">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="EtkDepotAdapterService">
+    <port name="EtkDepotAdapterEndpointPort" binding="tns:EtkDepotAdapterEndpointBinding">
+      <soap:address location="http://everest.cmpmedica.be:8080/services/EtkDepotAdapter" />
+    </port>
+  </service>
+</definitions>

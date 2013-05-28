@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tns="http://operations.mule.mproxy.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DiagnosticsService" targetNamespace="http://operations.mule.mproxy.cmp.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://operations.mule.mproxy.cmp.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="mproxyOperationStatusError" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="value" nillable="true" type="tns:errorLog" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="errorLog">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="creationDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="errorMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="id" type="xs:int" />
+          <xs:element name="mproxyErrorId" type="xs:long" />
+          <xs:element minOccurs="0" name="muleComponent" type="xs:string" />
+          <xs:element minOccurs="0" name="stackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="mproxyOperationResult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MPROXY_RESULT_OK" />
+          <xs:enumeration value="MPROXY_RESULT_FAILED" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="findLastErrorsResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatusError" />
+  </wsdl:message>
+  <wsdl:message name="getMbeanAttributeResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="exportErrorsToFileResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="checkPortsResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="removeErrorByIdResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="checkPortsListen">
+    <wsdl:part name="host" type="xsd:string" />
+    <wsdl:part name="portsToCheckDelimitedBySemicolumn" type="xsd:string" />
+    <wsdl:part name="timeOutInMillis" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="findAllErrors" />
+  <wsdl:message name="clearErrorsResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="exportErrorsToFile" />
+  <wsdl:message name="clearErrors" />
+  <wsdl:message name="getErrorById">
+    <wsdl:part name="arg0" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getMbeanAttribute">
+    <wsdl:part name="sever" type="xsd:string" />
+    <wsdl:part name="service" type="xsd:string" />
+    <wsdl:part name="attribute" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="checkPorts">
+    <wsdl:part name="host" type="xsd:string" />
+    <wsdl:part name="portsToCheckDelimitedBySemicolumn" type="xsd:string" />
+    <wsdl:part name="timeOutInMillis" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="removeErrorById">
+    <wsdl:part name="errorId" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="checkPortsListenResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="getErrorByIdResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatusError" />
+  </wsdl:message>
+  <wsdl:message name="findAllErrorsResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatusError" />
+  </wsdl:message>
+  <wsdl:message name="findLastErrors">
+    <wsdl:part name="maximumErrors" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:portType name="SystemDiagnostics">
+    <wsdl:operation name="getErrorById">
+      <wsdl:input name="getErrorById" message="tns:getErrorById" />
+      <wsdl:output name="getErrorByIdResponse" message="tns:getErrorByIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMbeanAttribute">
+      <wsdl:input name="getMbeanAttribute" message="tns:getMbeanAttribute" />
+      <wsdl:output name="getMbeanAttributeResponse" message="tns:getMbeanAttributeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="exportErrorsToFile">
+      <wsdl:input name="exportErrorsToFile" message="tns:exportErrorsToFile" />
+      <wsdl:output name="exportErrorsToFileResponse" message="tns:exportErrorsToFileResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="clearErrors">
+      <wsdl:input name="clearErrors" message="tns:clearErrors" />
+      <wsdl:output name="clearErrorsResponse" message="tns:clearErrorsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkPortsListen">
+      <wsdl:input name="checkPortsListen" message="tns:checkPortsListen" />
+      <wsdl:output name="checkPortsListenResponse" message="tns:checkPortsListenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findLastErrors">
+      <wsdl:input name="findLastErrors" message="tns:findLastErrors" />
+      <wsdl:output name="findLastErrorsResponse" message="tns:findLastErrorsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="findAllErrors">
+      <wsdl:input name="findAllErrors" message="tns:findAllErrors" />
+      <wsdl:output name="findAllErrorsResponse" message="tns:findAllErrorsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeErrorById">
+      <wsdl:input name="removeErrorById" message="tns:removeErrorById" />
+      <wsdl:output name="removeErrorByIdResponse" message="tns:removeErrorByIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkPorts">
+      <wsdl:input name="checkPorts" message="tns:checkPorts" />
+      <wsdl:output name="checkPortsResponse" message="tns:checkPortsResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DiagnosticsServiceSoapBinding" type="tns:SystemDiagnostics">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getErrorById">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getErrorById">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="getErrorByIdResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMbeanAttribute">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getMbeanAttribute">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="getMbeanAttributeResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="exportErrorsToFile">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="exportErrorsToFile">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="exportErrorsToFileResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkPortsListen">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="checkPortsListen">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="checkPortsListenResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="clearErrors">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="clearErrors">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="clearErrorsResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findLastErrors">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="findLastErrors">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="findLastErrorsResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAllErrors">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="findAllErrors">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="findAllErrorsResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeErrorById">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="removeErrorById">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="removeErrorByIdResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkPorts">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="checkPorts">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="checkPortsResponse">
+        <soap:body use="literal" namespace="http://operations.mule.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DiagnosticsService">
+    <wsdl:port name="SystemDiagnosticsPort" binding="tns:DiagnosticsServiceSoapBinding">
+      <soap:address location="http://localhost:8088/diagnostics" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

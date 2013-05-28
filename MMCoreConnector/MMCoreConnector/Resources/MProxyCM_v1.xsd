@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mpcm="com.cmp.mproxy.message"
+    targetNamespace="com.cmp.mproxy.message">
+    <!-- 25/01/2011 -->
+    <!-- Mproxy message version 1. -->
+    <!-- ========================================= -->
+    <!-- Destination type. It is a choice of one possible way to identify an addressee.
+        Now the five identification type are supported: by INAMI, by UID, by Name, by NISS, by MexiAddress. -->
+    <xs:complexType name="destination">
+        <xs:choice maxOccurs="1" minOccurs="1">
+            <xs:element name="inami" type="xs:string"/>
+            <xs:element name="mexiAddress" type="xs:string"/>
+            <xs:element name="uid" type="xs:string"/>
+            <xs:element name="niss" type="xs:string"/>
+            <xs:element name="name" type="mpcm:name"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="name">
+        <xs:attribute type="xs:string" use="required" name="first"/>
+        <xs:attribute type="xs:string" use="required" name="last"/>
+    </xs:complexType>
+    <!-- ========================================= -->
+    <!-- Attachements definition. Attachemts are the elements of the attachment list. -->
+    <!-- Each element is an URI location of a resource to transmit. -->
+    <!-- Maximum number is not limited. -->
+    <xs:complexType name="attachments">
+        <xs:sequence>
+            <xs:element name="attachment" type="mpcm:attachment" minOccurs="1" maxOccurs="unbounded"
+            />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="attachment">
+        <xs:sequence>
+            <!-- URI of an attachment. At the moment only FILE type is supported. -->
+            <xs:element name="uri" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="metadata" type="mpcm:map" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- ========================================= -->
+    <!-- Optional parameters. (are the subjects to change from version to version) -->
+    <xs:complexType name="options">
+        <xs:sequence>
+            <xs:element name="map" type="mpcm:map" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- Message properties in a form of key-value map -->
+    <!-- Here any kind of additional information could be placed -->
+    <xs:complexType name="map">
+        <xs:sequence>
+            <xs:element name="element" type="mpcm:element" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="element">
+        <xs:sequence>
+            <xs:element name="key" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- ========================================= -->
+    <xs:simpleType name="version"> 
+        <xs:restriction base='xs:string'> 
+            <xs:enumeration value="1" /> 
+        </xs:restriction> 
+    </xs:simpleType>
+    <!-- Main message type definition-->
+    <xs:complexType name="mproxyMessage">
+        <xs:sequence>
+            <!-- Version number. At the moment only v. 1. is supported-->
+            <xs:element name="version" type="mpcm:version" minOccurs="1" maxOccurs="1" default="1"/>
+            <!-- Message receiver. -->
+            <xs:element name="receiver" type="mpcm:destination" minOccurs="1" maxOccurs="1"/>
+            <!-- Message sender. -->
+            <xs:element name="sender" type="mpcm:destination" minOccurs="1" maxOccurs="1"/>
+            <!-- Attachments list. Minimum one attachment required. -->
+            <xs:element name="attachments" type="mpcm:attachments" minOccurs="1" maxOccurs="1"/>
+            <!-- Options list. -->
+            <xs:element name="option" type="mpcm:options" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- ========================================= -->
+    <xs:element name="mproxyMessage" type="mpcm:mproxyMessage"/>
+</xs:schema>
