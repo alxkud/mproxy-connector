@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.805,=C:\Users\Dev\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.529,=C:\Users\Dev\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013-05-29 13:19:37.021,=C:\Users\Dev\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013-05-29 13:20:15.369,C:\develop\trials\MediBridgeServices\Unit1.fmx=C:\Users\Dev\Documents\RAD Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2013-05-29 13:20:15.369,C:\develop\trials\MediBridgeServices\Unit1.pas=C:\Users\Dev\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2013-05-29 13:20:23.615,C:\develop\trials\MediBridgeServices\Project1.dproj=C:\Users\Dev\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2013-05-29 13:22:11.452,=C:\develop\trials\MediBridgeServices\lib\Account.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.470,=C:\develop\trials\MediBridgeServices\lib\Adapters.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.495,=C:\develop\trials\MediBridgeServices\lib\certification1.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.510,=C:\develop\trials\MediBridgeServices\lib\createMproxyAccount.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.530,=C:\develop\trials\MediBridgeServices\lib\decoding1.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.551,=C:\develop\trials\MediBridgeServices\lib\diagnostics.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.574,=C:\develop\trials\MediBridgeServices\lib\encoding1.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.591,=C:\develop\trials\MediBridgeServices\lib\EtkDepotAdapter.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.618,=C:\develop\trials\MediBridgeServices\lib\mailBoxAccount1.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.648,=C:\develop\trials\MediBridgeServices\lib\mailBoxAddressBook1.pas</Transaction>
+    <Transaction>2013-05-29 13:22:11.677,=C:\develop\trials\MediBridgeServices\lib\queueManagement.pas</Transaction>
+    <Transaction>2013-05-29 14:16:03.233,=C:\develop\trials\MediBridgeServices\Unit2.pas</Transaction>
+    <Transaction>2013-05-29 14:16:28.054,C:\develop\trials\MediBridgeServices\certEncS.pas=C:\develop\trials\MediBridgeServices\Unit2.pas</Transaction>
+    <Transaction>2013-05-29 14:16:39.116,C:\develop\trials\MediBridgeServices\CommonDefinitions.pas=C:\develop\trials\MediBridgeServices\certEncS.pas</Transaction>
+  </Transactions>
+</BorlandProject>

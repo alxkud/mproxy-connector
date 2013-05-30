@@ -1,0 +1,87 @@
+﻿unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
+  System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+
+uses Account;
+
+const
+  PINCODE = 'ixem';
+  TEST_STRING = 'HelloMMCoreWorld...';
+  SenderFirstName = 'Michael';
+  SenderLastName = 'Jackson';
+  ReceiverFirstName = 'Freddy';
+  ReceiverLastName = 'Mercury';
+
+
+var
+  mmsender, receiver: person;
+//  private static IMMCoreServices services;
+
+function generateMexiAddress(personfirstName, personlastName, personinami, personca: string): string;
+begin
+  Result := personlastName + '.' + personinami + '@' + personca;
+  if personfirstName <> '' then
+    Result := personfirstName + '.' + Result;
+end;
+
+procedure initializeSenderPersonalData;
+begin
+  mmsender := person.Create;
+  with mmsender do
+  begin
+    firstName := SenderFirstName;
+    lastName := SenderLastName;
+    login := firstName + '.' + lastName;
+    role := 'INDETERMINE';
+    version := 'VERSION_MPROXY';
+    sender := true;
+    password := 'abc';
+    enabled := 'true';
+    userCertificate := '1';
+    fax := '000';
+    inami := '52454346';
+    boolAck := true;
+    encCertificate := '1';
+    certified := true;
+    caDomain := 'mproxytest';
+    mexiAddress := generateMexiAddress(firstName, lastName, inami, caDomain);
+  end;
+end;
+
+procedure initializeReceiverPersonalData;
+begin
+
+end;
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  initializeSenderPersonalData;
+  GetAccountEndpoint.findAccount(sender.login);
+
+//  initializeReceiverPersonalData;
+end;
+
+end.

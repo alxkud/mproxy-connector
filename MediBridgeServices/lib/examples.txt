@@ -1,0 +1,48 @@
+
+sans authentification / without authentification
+------------------------------------------------
+
+
+uses ...Account...;
+...
+
+...
+var
+  res : mproxyOperationStatusPerson;
+begin
+  res := mproxyOperationStatusPerson.Create;
+  try
+    res := GetAccountEndpoint().findAccount('userid');
+  finally
+    res.Free;
+  end;
+end;
+
+
+avec authentification / with authentification
+---------------------------------------------
+
+
+uses ...createMProxyAccount...;
+...
+
+...
+var
+  res : String;
+  RIO: THTTPRIO;
+  HTTPReqResp1: THTTPReqResp;
+begin
+  HTTPReqResp1 := THTTPReqResp.create(nil);
+  RIO := THTTPRIO.Create(nil);
+
+  HTTPReqResp1.Password := 'thefrog';
+  HTTPReqResp1.username := 'kermit';
+  RIO.HTTPWebNode := HTTPReqResp1;
+  res := GetMproxyAccountsServiceEndpoint(True, '', RIO).createAccount('firstname', 'lastname',
+  'user', 'pwd', '123456788', '12345678919', 'mymail@mail.be', '+32 4 377 77 77', '', '',
+  'mystreet, 36', '4000', 'city', 'fr', dmi.EPICURE);
+
+end;
+
+
+
