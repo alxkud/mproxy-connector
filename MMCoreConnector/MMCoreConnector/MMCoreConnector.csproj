@@ -212,9 +212,6 @@
     <None Include="Resources\MProxyCM_v3.jxb" />
     <None Include="Resources\MProxyCM_v3.xsd" />
     <None Include="Web References\WRAccount\AccountService.wsdl" />
-    <None Include="Web References\WRAccount\mproxyOperationStatus.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
     <None Include="Web References\WRAccount\mproxyOperationStatusPerson.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

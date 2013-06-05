@@ -105,10 +105,10 @@ namespace MMCoreConnector.WRAccount {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://session.kernel.cmp.com/", ResponseNamespace="http://session.kernel.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public mproxyOperationStatus createAccountWS(person person) {
+        public mproxyOperationStatusPerson createAccountWS(person person) {
             object[] results = this.Invoke("createAccountWS", new object[] {
                         person});
-            return ((mproxyOperationStatus)(results[0]));
+            return ((mproxyOperationStatusPerson)(results[0]));
         }
         
         /// <remarks/>
@@ -380,6 +380,8 @@ namespace MMCoreConnector.WRAccount {
         
         private string firstNameField;
         
+        private string genderField;
+        
         private string inamiField;
         
         private string institutionField;
@@ -394,11 +396,15 @@ namespace MMCoreConnector.WRAccount {
         
         private string loginField;
         
+        private string mailField;
+        
         private string mexiAddressField;
         
         private string mexiBackupField;
         
         private string mobilephoneField;
+        
+        private string nissField;
         
         private string oldIPField;
         
@@ -413,6 +419,10 @@ namespace MMCoreConnector.WRAccount {
         private string pkeyField;
         
         private string pkeyehealthField;
+        
+        private string postalAddressField;
+        
+        private string postalCodeField;
         
         private bool principalField;
         
@@ -642,6 +652,17 @@ namespace MMCoreConnector.WRAccount {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string gender {
+            get {
+                return this.genderField;
+            }
+            set {
+                this.genderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string inami {
             get {
                 return this.inamiField;
@@ -719,6 +740,17 @@ namespace MMCoreConnector.WRAccount {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mail {
+            get {
+                return this.mailField;
+            }
+            set {
+                this.mailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string mexiAddress {
             get {
                 return this.mexiAddressField;
@@ -747,6 +779,17 @@ namespace MMCoreConnector.WRAccount {
             }
             set {
                 this.mobilephoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string niss {
+            get {
+                return this.nissField;
+            }
+            set {
+                this.nissField = value;
             }
         }
         
@@ -824,6 +867,28 @@ namespace MMCoreConnector.WRAccount {
             }
             set {
                 this.pkeyehealthField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string postalAddress {
+            get {
+                return this.postalAddressField;
+            }
+            set {
+                this.postalAddressField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string postalCode {
+            get {
+                return this.postalCodeField;
+            }
+            set {
+                this.postalCodeField = value;
             }
         }
         
@@ -1059,67 +1124,6 @@ namespace MMCoreConnector.WRAccount {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
     [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
-    public partial class mproxyOperationStatus {
-        
-        private string detailedInfoField;
-        
-        private string operationOutputValueField;
-        
-        private mproxyOperationResult operationResultField;
-        
-        private bool operationResultFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string detailedInfo {
-            get {
-                return this.detailedInfoField;
-            }
-            set {
-                this.detailedInfoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string operationOutputValue {
-            get {
-                return this.operationOutputValueField;
-            }
-            set {
-                this.operationOutputValueField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mproxyOperationResult operationResult {
-            get {
-                return this.operationResultField;
-            }
-            set {
-                this.operationResultField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool operationResultSpecified {
-            get {
-                return this.operationResultFieldSpecified;
-            }
-            set {
-                this.operationResultFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
     public enum searchingCriteria {
         
@@ -1163,10 +1167,10 @@ namespace MMCoreConnector.WRAccount {
         }
         
         /// <remarks/>
-        public mproxyOperationStatus Result {
+        public mproxyOperationStatusPerson Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((mproxyOperationStatus)(this.results[0]));
+                return ((mproxyOperationStatusPerson)(this.results[0]));
             }
         }
     }

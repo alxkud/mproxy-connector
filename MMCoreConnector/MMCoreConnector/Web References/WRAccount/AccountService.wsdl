@@ -35,6 +35,7 @@
           <xs:element minOccurs="0" name="etk" type="xs:string" />
           <xs:element minOccurs="0" name="fax" type="xs:string" />
           <xs:element minOccurs="0" name="firstName" type="xs:string" />
+          <xs:element minOccurs="0" name="gender" type="xs:string" />
           <xs:element minOccurs="0" name="inami" type="xs:string" />
           <xs:element minOccurs="0" name="institution" type="xs:string" />
           <xs:element minOccurs="0" name="langue" type="xs:string" />
@@ -42,9 +43,11 @@
           <xs:element minOccurs="0" name="lastconnectiondate" type="xs:string" />
           <xs:element minOccurs="0" name="localeStr" type="xs:string" />
           <xs:element minOccurs="0" name="login" type="xs:string" />
+          <xs:element minOccurs="0" name="mail" type="xs:string" />
           <xs:element minOccurs="0" name="mexiAddress" type="xs:string" />
           <xs:element minOccurs="0" name="mexiBackup" type="xs:string" />
           <xs:element minOccurs="0" name="mobilephone" type="xs:string" />
+          <xs:element minOccurs="0" name="niss" type="xs:string" />
           <xs:element minOccurs="0" name="oldIP" type="xs:string" />
           <xs:element minOccurs="0" name="oldSystemId" type="xs:string" />
           <xs:element minOccurs="0" name="packageName" type="xs:string" />
@@ -52,6 +55,8 @@
           <xs:element minOccurs="0" name="pincode" type="xs:string" />
           <xs:element minOccurs="0" name="pkey" type="xs:string" />
           <xs:element minOccurs="0" name="pkeyehealth" type="xs:string" />
+          <xs:element minOccurs="0" name="postalAddress" type="xs:string" />
+          <xs:element minOccurs="0" name="postalCode" type="xs:string" />
           <xs:element name="principal" type="xs:boolean" />
           <xs:element minOccurs="0" name="principalUserName" type="xs:string" />
           <xs:element minOccurs="0" name="province" type="xs:string" />
@@ -66,13 +71,6 @@
           <xs:element minOccurs="0" name="userpublic" type="xs:string" />
           <xs:element minOccurs="0" name="usetranscodor" type="xs:string" />
           <xs:element minOccurs="0" name="version" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="mproxyOperationStatus" final="extension restriction">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
-          <xs:element minOccurs="0" name="operationOutputValue" type="xs:string" />
-          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
         </xs:sequence>
       </xs:complexType>
       <xs:simpleType name="mproxyOperationResult">
@@ -103,7 +101,7 @@
     <part name="return" type="tns:mproxyOperationStatusPerson" />
   </message>
   <message name="AccountEndpoint_createAccountWSResponse">
-    <part name="return" type="tns:mproxyOperationStatus" />
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
   </message>
   <message name="AccountEndpoint_getCriteriaNamesListResponse">
     <part name="return" type="tns:searchingCriteriaArray" />
@@ -246,7 +244,7 @@
   </binding>
   <service name="AccountService">
     <port name="AccountEndpointPort" binding="tns:AccountEndpointBinding">
-      <soap:address location="http://everest.cmpmedica.be:8080/services/Account" />
+      <soap:address location="http://gl-everest.lan.pcsol.be:8080/services/Account" />
     </port>
   </service>
 </definitions>

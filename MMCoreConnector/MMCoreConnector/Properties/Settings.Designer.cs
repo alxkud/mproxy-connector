@@ -46,7 +46,7 @@ namespace MMCoreConnector.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://everest.cmpmedica.be:8080/services/Adapters")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://gl-everest.lan.pcsol.be:8080/services/Adapters")]
         public string MMCoreConnector_WRAdapters_AdaptersService {
             get {
                 return ((string)(this["MMCoreConnector_WRAdapters_AdaptersService"]));
@@ -96,7 +96,7 @@ namespace MMCoreConnector.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://everest.cmpmedica.be:8080/services/Account")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://gl-everest.lan.pcsol.be:8080/services/Account")]
         public string MMCoreConnector_WRAccount_AccountService {
             get {
                 return ((string)(this["MMCoreConnector_WRAccount_AccountService"]));

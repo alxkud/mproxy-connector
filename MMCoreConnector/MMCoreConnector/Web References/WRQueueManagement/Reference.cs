@@ -27,9 +27,6 @@ namespace MMCoreConnector.WRQueueManagement {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="QueueManagerServiceSoapBinding", Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(abstractCollection))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(mproxyAttachment))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(dictionary))]
     public partial class QueueManagerService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback flushMessageOperationCompleted;
@@ -715,33 +712,38 @@ namespace MMCoreConnector.WRQueueManagement {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(abstractSet))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(hashSet))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public abstract partial class abstractCollection {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(hashSet))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public abstract partial class abstractSet : abstractCollection {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class hashSet : abstractSet {
+    public partial class mproxyOptions {
+        
+        private string keyField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string key {
+            get {
+                return this.keyField;
+            }
+            set {
+                this.keyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -860,36 +862,6 @@ namespace MMCoreConnector.WRQueueManagement {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(hashtable))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(properties))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public abstract partial class dictionary {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(properties))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class hashtable : dictionary {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class properties : hashtable {
-    }
-    
-    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -897,19 +869,31 @@ namespace MMCoreConnector.WRQueueManagement {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
     public partial class mproxyIntegrationMessage {
         
-        private mproxyIntegrationMessageEntry[] metadataField;
+        private mproxyAttachment[] mproxyAttachementsField;
+        
+        private mproxyOptions[] mproxyOptionsField;
         
         private string mproxyXMLMessageField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("entry", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public mproxyIntegrationMessageEntry[] metadata {
+        [System.Xml.Serialization.XmlElementAttribute("mproxyAttachements", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mproxyAttachment[] mproxyAttachements {
             get {
-                return this.metadataField;
+                return this.mproxyAttachementsField;
             }
             set {
-                this.metadataField = value;
+                this.mproxyAttachementsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mproxyOptions", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mproxyOptions[] mproxyOptions {
+            get {
+                return this.mproxyOptionsField;
+            }
+            set {
+                this.mproxyOptionsField = value;
             }
         }
         
@@ -921,41 +905,6 @@ namespace MMCoreConnector.WRQueueManagement {
             }
             set {
                 this.mproxyXMLMessageField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyIntegrationMessageEntry {
-        
-        private object keyField;
-        
-        private object valueField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public object key {
-            get {
-                return this.keyField;
-            }
-            set {
-                this.keyField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public object value {
-            get {
-                return this.valueField;
-            }
-            set {
-                this.valueField = value;
             }
         }
     }

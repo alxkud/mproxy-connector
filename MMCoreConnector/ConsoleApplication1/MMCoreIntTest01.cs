@@ -49,19 +49,14 @@ namespace MMCoreIntegrationTests.Tests
             person.firstName = ReceiverFirstName;
             person.lastName = ReceiverLastName;
             person.login = person.firstName + "." + person.lastName;
-            person.role = "INDETERMINE";
+            Random randomGenerator = new Random();
             person.version = "VERSION_MPROXY";
-            person.sender = true;
-            person.inami = "87685674346";
-            person.password = "abc";
-            person.enabled = "true";
-            person.userCertificate = "1";
-            person.fax = "000";
-            person.boolAck = true;
-            person.encCertificate = "1";
-            person.certified = true;
-            person.caDomain = "mproxytest";
-            person.mexiAddress = generateMexiAddress(person.firstName, person.lastName, person.inami, person.caDomain);
+            person.password = person.firstName;
+            person.city = "BRUXELLES";
+            long inami = 800000L + randomGenerator.Next(100000);
+            long niss = 700000000L + randomGenerator.Next(100000000);
+            person.niss = (niss.ToString());
+            person.inami = (inami.ToString());
             receiver = person;
         }
 
@@ -71,19 +66,14 @@ namespace MMCoreIntegrationTests.Tests
             person.firstName = SenderFirstName;
             person.lastName = SenderLastName;
             person.login = person.firstName + "." + person.lastName;
-            person.role = "INDETERMINE";
+            Random randomGenerator = new Random();
             person.version = "VERSION_MPROXY";
-            person.sender = true;
-            person.password = "abc";
-            person.enabled = "true";
-            person.userCertificate = "1";
-            person.fax = "000";
-            person.inami = "52454346";
-            person.boolAck = true;
-            person.encCertificate = "1";
-            person.certified = true;
-            person.caDomain = "mproxytest";
-            person.mexiAddress = generateMexiAddress(person.firstName, person.lastName, person.inami, person.caDomain);
+            person.password = person.firstName;
+            person.city = "BRUXELLES";
+            long inami = 800000L + randomGenerator.Next(100000);
+            long niss = 700000000L + randomGenerator.Next(100000000);
+            person.niss = (niss.ToString());
+            person.inami = (inami.ToString());
             sender = person;
         }
         private static void certify(MMCoreConnector.WRAccount.person person)
@@ -139,23 +129,27 @@ namespace MMCoreIntegrationTests.Tests
             Console.WriteLine("RESULT: " + mosA.operationResult + " INFO: " + mosA.detailedInfo + " OUT: " + mosA.operationOutputValue);
             Console.WriteLine("Etk S: " + mosA.operationOutputValue);
         }
-        private static void createServerAccount(MMCoreConnector.WRAccount.person person)
+        private static MMCoreConnector.WRAccount.person createServerAccount(MMCoreConnector.WRAccount.person person)
         {
+            MMCoreConnector.WRAccount.person res = null;
             Console.WriteLine("createServerAccount : " + person.login);
-            MMCoreConnector.WRAccount.mproxyOperationStatus mosp = services.MMCoreServiceAccount.createAccountWS(person);
+            MMCoreConnector.WRAccount.mproxyOperationStatusPerson mosp = services.MMCoreServiceAccount.createAccountWS(person);
             Console.WriteLine("createServerAccount : " + person.login + " RES: " + mosp.operationResult + "   INFO: " + mosp.detailedInfo);
             if (mosp.operationResult.Equals(MMCoreConnector.WRAccount.mproxyOperationResult.MPROXY_RESULT_OK))
             {
                 if (mosp.detailedInfo.Equals("Account created"))
                 {
                     Console.WriteLine("createServerAccount : " + person.login + " CREATED");
+                    res = mosp.value[0];
 
                 }
             }
             else
             {
                 Console.WriteLine("createServerAccount : " + person.login + " NOT CREATED...");
+                res = null;
             }
+            return res;
 
         }
         private static void createLocalAccount(MMCoreConnector.WRAccount.person person)
@@ -176,9 +170,9 @@ namespace MMCoreIntegrationTests.Tests
                 Console.WriteLine("createLocalAccount : " + person.login + " NOT CREATED...");
             }
         }
-        private static bool verifyServerAccountExist(MMCoreConnector.WRAccount.person person)
+        private static MMCoreConnector.WRAccount.person verifyServerAccountExist(MMCoreConnector.WRAccount.person person)
         {
-            bool res = false;
+            MMCoreConnector.WRAccount.person res = null;
             Console.WriteLine("verifyServerAccountExist : " + person.login);
             MMCoreConnector.WRAccount.mproxyOperationStatusPerson mosp = services.MMCoreServiceAccount.findAccount(person.login);
             Console.WriteLine("verifyServerAccountExist : " + person.login + "  IS: " + mosp.operationResult);
@@ -187,7 +181,7 @@ namespace MMCoreIntegrationTests.Tests
                 if (mosp.detailedInfo.Equals("Account found"))
                 {
                     Console.WriteLine("verifyServerAccountExist : " + person.login + " FOUND!");
-                    res = true;
+                    res = mosp.value[0];
                 }
             }
             else
@@ -292,6 +286,8 @@ namespace MMCoreIntegrationTests.Tests
                 Console.WriteLine("Failed to get ids...");
             }
             string[] allIds = moss.value;
+            //very stupid method to wait for a msg...
+            System.Threading.Thread.Sleep(20);
             foreach (string id in allIds)
             {
                 Console.WriteLine("FOUND: " + id);
@@ -305,6 +301,14 @@ namespace MMCoreIntegrationTests.Tests
                     if (mim != null)
                     {
                         Console.WriteLine("MSG : " + mim.mproxyXMLMessage);
+                        int len = mim.mproxyAttachements.Length;
+                        for (int i = 0; i < len; i++)
+                        {
+                            MMCoreConnector.WRQueueManagement.mproxyAttachment mpa = mim.mproxyAttachements[i];
+                            byte[] content = mpa.content;
+                            string name = mpa.name;
+                            Console.WriteLine("Attachement name: " + name + ";  Content  " + content.Length);
+                        }
                     }
                 }
                 else
@@ -323,16 +327,19 @@ namespace MMCoreIntegrationTests.Tests
 
             initializeSenderPersonalData();
             initializeReceiverPersonalData();
-
-            if (!verifyServerAccountExist(sender))
+            MMCoreConnector.WRAccount.person remoteSender = verifyServerAccountExist(sender);
+            MMCoreConnector.WRAccount.person remoteReceiver = verifyServerAccountExist(receiver);
+            if (remoteSender == null)
             {
-                createServerAccount(sender);
+                remoteSender = createServerAccount(sender);
             }
 
-            if (!verifyServerAccountExist(receiver))
+            if (remoteReceiver == null)
             {
-                createServerAccount(receiver);
+                remoteReceiver = createServerAccount(receiver);
             }
+            receiver = remoteReceiver;
+            sender = remoteSender;
 
             if (!verifyLocalAccountExist(sender))
             {

@@ -146,7 +146,7 @@
   </binding>
   <service name="AdaptersService">
     <port name="AdaptersEndpointPort" binding="tns:AdaptersEndpointBinding">
-      <soap:address location="http://everest.cmpmedica.be:8080/services/Adapters" />
+      <soap:address location="http://gl-everest.lan.pcsol.be:8080/services/Adapters" />
     </port>
   </service>
 </definitions>

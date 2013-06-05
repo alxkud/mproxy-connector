@@ -59,39 +59,10 @@
       </xs:complexType>
       <xs:complexType name="mproxyIntegrationMessage" final="extension restriction">
         <xs:sequence>
-          <xs:element name="metadata">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
-                  <xs:complexType>
-                    <xs:sequence>
-                      <xs:element minOccurs="0" name="key" type="xs:anyType" />
-                      <xs:element minOccurs="0" name="value" type="xs:anyType" />
-                    </xs:sequence>
-                  </xs:complexType>
-                </xs:element>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="mproxyAttachements" nillable="true" type="tns:mproxyAttachment" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="mproxyOptions" nillable="true" type="tns:mproxyOptions" />
           <xs:element minOccurs="0" name="mproxyXMLMessage" type="xs:string" />
         </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="dictionary" abstract="true">
-        <xs:sequence />
-      </xs:complexType>
-      <xs:complexType name="hashtable">
-        <xs:complexContent mixed="false">
-          <xs:extension base="tns:dictionary">
-            <xs:sequence />
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-      <xs:complexType name="properties">
-        <xs:complexContent mixed="false">
-          <xs:extension base="tns:hashtable">
-            <xs:sequence />
-          </xs:extension>
-        </xs:complexContent>
       </xs:complexType>
       <xs:complexType name="mproxyAttachment" final="extension restriction">
         <xs:sequence>
@@ -100,6 +71,12 @@
           <xs:element minOccurs="0" name="info" type="xs:string" />
           <xs:element minOccurs="0" name="name" type="xs:string" />
           <xs:element minOccurs="0" name="status" type="tns:mproxyMessageStatus" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyOptions" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="key" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="hashSet">

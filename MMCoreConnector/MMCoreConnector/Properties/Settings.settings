@@ -9,7 +9,7 @@
       <Value Profile="(Default)">http://localhost:8088/certification</Value>
     </Setting>
     <Setting Name="MMCoreConnector_WRAdapters_AdaptersService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://everest.cmpmedica.be:8080/services/Adapters</Value>
+      <Value Profile="(Default)">http://gl-everest.lan.pcsol.be:8080/services/Adapters</Value>
     </Setting>
     <Setting Name="MMCoreConnector_WRCreateMproxyAccount_MproxyAccountsService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://gl-everest.lan.pcsol.be:8080/AccountsServiceSession/createMproxyAccount</Value>
@@ -24,7 +24,7 @@
       <Value Profile="(Default)">http://localhost:8088/diagnostics</Value>
     </Setting>
     <Setting Name="MMCoreConnector_WRAccount_AccountService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://everest.cmpmedica.be:8080/services/Account</Value>
+      <Value Profile="(Default)">http://gl-everest.lan.pcsol.be:8080/services/Account</Value>
     </Setting>
   </Settings>
 </SettingsFile>
