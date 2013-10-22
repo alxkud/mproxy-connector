@@ -39,6 +39,8 @@ namespace MMCoreConnector.WRAccount {
         
         private System.Threading.SendOrPostCallback findByLoginOnDocsWSOperationCompleted;
         
+        private System.Threading.SendOrPostCallback getAttributeByIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback getCriteriaNamesListOperationCompleted;
         
         private System.Threading.SendOrPostCallback removeAccountOperationCompleted;
@@ -95,6 +97,9 @@ namespace MMCoreConnector.WRAccount {
         
         /// <remarks/>
         public event findByLoginOnDocsWSCompletedEventHandler findByLoginOnDocsWSCompleted;
+        
+        /// <remarks/>
+        public event getAttributeByIdCompletedEventHandler getAttributeByIdCompleted;
         
         /// <remarks/>
         public event getCriteriaNamesListCompletedEventHandler getCriteriaNamesListCompleted;
@@ -257,6 +262,38 @@ namespace MMCoreConnector.WRAccount {
             if ((this.findByLoginOnDocsWSCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.findByLoginOnDocsWSCompleted(this, new findByLoginOnDocsWSCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://session.kernel.cmp.com/", ResponseNamespace="http://session.kernel.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatusStrings getAttributeById(string LDAPAttribute, string Id) {
+            object[] results = this.Invoke("getAttributeById", new object[] {
+                        LDAPAttribute,
+                        Id});
+            return ((mproxyOperationStatusStrings)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void getAttributeByIdAsync(string LDAPAttribute, string Id) {
+            this.getAttributeByIdAsync(LDAPAttribute, Id, null);
+        }
+        
+        /// <remarks/>
+        public void getAttributeByIdAsync(string LDAPAttribute, string Id, object userState) {
+            if ((this.getAttributeByIdOperationCompleted == null)) {
+                this.getAttributeByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetAttributeByIdOperationCompleted);
+            }
+            this.InvokeAsync("getAttributeById", new object[] {
+                        LDAPAttribute,
+                        Id}, this.getAttributeByIdOperationCompleted, userState);
+        }
+        
+        private void OngetAttributeByIdOperationCompleted(object arg) {
+            if ((this.getAttributeByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.getAttributeByIdCompleted(this, new getAttributeByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1053,6 +1090,80 @@ namespace MMCoreConnector.WRAccount {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
+    public partial class mproxyOperationStatusStrings {
+        
+        private string detailedInfoField;
+        
+        private mproxyOperationResult operationResultField;
+        
+        private bool operationResultFieldSpecified;
+        
+        private string[] valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string detailedInfo {
+            get {
+                return this.detailedInfoField;
+            }
+            set {
+                this.detailedInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyOperationResult operationResult {
+            get {
+                return this.operationResultField;
+            }
+            set {
+                this.operationResultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool operationResultSpecified {
+            get {
+                return this.operationResultFieldSpecified;
+            }
+            set {
+                this.operationResultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public string[] value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
+    public enum mproxyOperationResult {
+        
+        /// <remarks/>
+        MPROXY_RESULT_OK,
+        
+        /// <remarks/>
+        MPROXY_RESULT_FAILED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
     public partial class mproxyOperationStatusPerson {
         
         private string detailedInfoField;
@@ -1106,19 +1217,6 @@ namespace MMCoreConnector.WRAccount {
                 this.valueField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://session.kernel.cmp.com/")]
-    public enum mproxyOperationResult {
-        
-        /// <remarks/>
-        MPROXY_RESULT_OK,
-        
-        /// <remarks/>
-        MPROXY_RESULT_FAILED,
     }
     
     /// <remarks/>
@@ -1275,6 +1373,32 @@ namespace MMCoreConnector.WRAccount {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((mproxyOperationStatusPerson)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void getAttributeByIdCompletedEventHandler(object sender, getAttributeByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class getAttributeByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal getAttributeByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public mproxyOperationStatusStrings Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatusStrings)(this.results[0]));
             }
         }
     }

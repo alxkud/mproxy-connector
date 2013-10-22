@@ -75,28 +75,28 @@ namespace MMCoreConnector.WREtkDepotAdapter {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://session.kernel.cmp.com/", ResponseNamespace="http://session.kernel.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public mproxyOperationStatus getEtk(string arg0, string arg1, string arg2) {
+        public mproxyOperationStatus getEtk(string Type, string Value, string ApplicationID) {
             object[] results = this.Invoke("getEtk", new object[] {
-                        arg0,
-                        arg1,
-                        arg2});
+                        Type,
+                        Value,
+                        ApplicationID});
             return ((mproxyOperationStatus)(results[0]));
         }
         
         /// <remarks/>
-        public void getEtkAsync(string arg0, string arg1, string arg2) {
-            this.getEtkAsync(arg0, arg1, arg2, null);
+        public void getEtkAsync(string Type, string Value, string ApplicationID) {
+            this.getEtkAsync(Type, Value, ApplicationID, null);
         }
         
         /// <remarks/>
-        public void getEtkAsync(string arg0, string arg1, string arg2, object userState) {
+        public void getEtkAsync(string Type, string Value, string ApplicationID, object userState) {
             if ((this.getEtkOperationCompleted == null)) {
                 this.getEtkOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetEtkOperationCompleted);
             }
             this.InvokeAsync("getEtk", new object[] {
-                        arg0,
-                        arg1,
-                        arg2}, this.getEtkOperationCompleted, userState);
+                        Type,
+                        Value,
+                        ApplicationID}, this.getEtkOperationCompleted, userState);
         }
         
         private void OngetEtkOperationCompleted(object arg) {

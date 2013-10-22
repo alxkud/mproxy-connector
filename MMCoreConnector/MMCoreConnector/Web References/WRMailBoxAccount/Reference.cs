@@ -35,9 +35,13 @@ namespace MMCoreConnector.WRMailBoxAccount {
         
         private System.Threading.SendOrPostCallback readAllOperationCompleted;
         
+        private System.Threading.SendOrPostCallback createMailBoxOperationCompleted;
+        
         private System.Threading.SendOrPostCallback findSWUUserLoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback updateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback generateMailBoxAccountIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback createDefaultOperationCompleted;
         
@@ -93,10 +97,16 @@ namespace MMCoreConnector.WRMailBoxAccount {
         public event readAllCompletedEventHandler readAllCompleted;
         
         /// <remarks/>
+        public event createMailBoxCompletedEventHandler createMailBoxCompleted;
+        
+        /// <remarks/>
         public event findSWUUserLoginCompletedEventHandler findSWUUserLoginCompleted;
         
         /// <remarks/>
         public event updateCompletedEventHandler updateCompleted;
+        
+        /// <remarks/>
+        public event generateMailBoxAccountIdCompletedEventHandler generateMailBoxAccountIdCompleted;
         
         /// <remarks/>
         public event createDefaultCompletedEventHandler createDefaultCompleted;
@@ -196,6 +206,42 @@ namespace MMCoreConnector.WRMailBoxAccount {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.account.mproxy.cmp.com/", ResponseNamespace="http://operations.account.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatus createMailBox(string boxType, string type, string value, string applicationId) {
+            object[] results = this.Invoke("createMailBox", new object[] {
+                        boxType,
+                        type,
+                        value,
+                        applicationId});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void createMailBoxAsync(string boxType, string type, string value, string applicationId) {
+            this.createMailBoxAsync(boxType, type, value, applicationId, null);
+        }
+        
+        /// <remarks/>
+        public void createMailBoxAsync(string boxType, string type, string value, string applicationId, object userState) {
+            if ((this.createMailBoxOperationCompleted == null)) {
+                this.createMailBoxOperationCompleted = new System.Threading.SendOrPostCallback(this.OncreateMailBoxOperationCompleted);
+            }
+            this.InvokeAsync("createMailBox", new object[] {
+                        boxType,
+                        type,
+                        value,
+                        applicationId}, this.createMailBoxOperationCompleted, userState);
+        }
+        
+        private void OncreateMailBoxOperationCompleted(object arg) {
+            if ((this.createMailBoxCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.createMailBoxCompleted(this, new createMailBoxCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.account.mproxy.cmp.com/", ResponseNamespace="http://operations.account.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
         public mproxyOperationStatus findSWUUserLogin() {
             object[] results = this.Invoke("findSWUUserLogin", new object[0]);
             return ((mproxyOperationStatus)(results[0]));
@@ -248,6 +294,42 @@ namespace MMCoreConnector.WRMailBoxAccount {
             if ((this.updateCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.updateCompleted(this, new updateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.account.mproxy.cmp.com/", ResponseNamespace="http://operations.account.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatus generateMailBoxAccountId(string boxType, string type, string value, string applicationId) {
+            object[] results = this.Invoke("generateMailBoxAccountId", new object[] {
+                        boxType,
+                        type,
+                        value,
+                        applicationId});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void generateMailBoxAccountIdAsync(string boxType, string type, string value, string applicationId) {
+            this.generateMailBoxAccountIdAsync(boxType, type, value, applicationId, null);
+        }
+        
+        /// <remarks/>
+        public void generateMailBoxAccountIdAsync(string boxType, string type, string value, string applicationId, object userState) {
+            if ((this.generateMailBoxAccountIdOperationCompleted == null)) {
+                this.generateMailBoxAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OngenerateMailBoxAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("generateMailBoxAccountId", new object[] {
+                        boxType,
+                        type,
+                        value,
+                        applicationId}, this.generateMailBoxAccountIdOperationCompleted, userState);
+        }
+        
+        private void OngenerateMailBoxAccountIdOperationCompleted(object arg) {
+            if ((this.generateMailBoxAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.generateMailBoxAccountIdCompleted(this, new generateMailBoxAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -933,6 +1015,32 @@ namespace MMCoreConnector.WRMailBoxAccount {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void createMailBoxCompletedEventHandler(object sender, createMailBoxCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class createMailBoxCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal createMailBoxCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public mproxyOperationStatus Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatus)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     public delegate void findSWUUserLoginCompletedEventHandler(object sender, findSWUUserLoginCompletedEventArgs e);
     
     /// <remarks/>
@@ -970,6 +1078,32 @@ namespace MMCoreConnector.WRMailBoxAccount {
         private object[] results;
         
         internal updateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public mproxyOperationStatus Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatus)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void generateMailBoxAccountIdCompletedEventHandler(object sender, generateMailBoxAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class generateMailBoxAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal generateMailBoxAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

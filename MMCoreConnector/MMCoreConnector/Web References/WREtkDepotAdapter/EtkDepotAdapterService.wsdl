@@ -18,15 +18,15 @@
     </xs:schema>
   </types>
   <message name="EtkDepotAdapterEndpoint_getEtk">
-    <part name="arg0" type="xsd:string" />
-    <part name="arg1" type="xsd:string" />
-    <part name="arg2" type="xsd:string" />
+    <part name="Type" type="xsd:string" />
+    <part name="Value" type="xsd:string" />
+    <part name="ApplicationID" type="xsd:string" />
   </message>
   <message name="EtkDepotAdapterEndpoint_getEtkResponse">
     <part name="return" type="tns:mproxyOperationStatus" />
   </message>
   <portType name="EtkDepotAdapterEndpoint">
-    <operation name="getEtk" parameterOrder="arg0 arg1 arg2">
+    <operation name="getEtk" parameterOrder="Type Value ApplicationID">
       <input message="tns:EtkDepotAdapterEndpoint_getEtk" />
       <output message="tns:EtkDepotAdapterEndpoint_getEtkResponse" />
     </operation>
@@ -45,7 +45,7 @@
   </binding>
   <service name="EtkDepotAdapterService">
     <port name="EtkDepotAdapterEndpointPort" binding="tns:EtkDepotAdapterEndpointBinding">
-      <soap:address location="http://everest.cmpmedica.be:8080/services/EtkDepotAdapter" />
+      <soap:address location="http://gl-everest.lan.pcsol.be:8080/services/EtkDepotAdapter" />
     </port>
   </service>
 </definitions>

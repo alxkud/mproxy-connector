@@ -66,7 +66,7 @@ namespace MMCoreConnector.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://everest.cmpmedica.be:8080/services/EtkDepotAdapter")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://gl-everest.lan.pcsol.be:8080/services/EtkDepotAdapter")]
         public string MMCoreConnector_WREtkDepotAdapter_EtkDepotAdapterService {
             get {
                 return ((string)(this["MMCoreConnector_WREtkDepotAdapter_EtkDepotAdapterService"]));

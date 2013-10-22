@@ -29,11 +29,15 @@ namespace MMCoreConnector.WRQueueManagement {
     [System.Web.Services.WebServiceBindingAttribute(Name="QueueManagerServiceSoapBinding", Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
     public partial class QueueManagerService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback sendMessageOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback getIMessageIdsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback flushMessageOperationCompleted;
         
-        private System.Threading.SendOrPostCallback sendEHealthMessageOperationCompleted;
-        
         private System.Threading.SendOrPostCallback reprocessMessageByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback performSqlStatementOperationCompleted;
         
         private System.Threading.SendOrPostCallback flushAllMessagesOperationCompleted;
         
@@ -47,11 +51,15 @@ namespace MMCoreConnector.WRQueueManagement {
         
         private System.Threading.SendOrPostCallback sendSimpleMessageOperationCompleted;
         
+        private System.Threading.SendOrPostCallback reprocessErrorFolderOperationCompleted;
+        
         private System.Threading.SendOrPostCallback getMessageIdsByKindAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback getMessageByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback sendAsXmlOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback deleteIMessageOperationCompleted;
         
         private System.Threading.SendOrPostCallback getIMessageByIdOperationCompleted;
         
@@ -98,13 +106,19 @@ namespace MMCoreConnector.WRQueueManagement {
         }
         
         /// <remarks/>
+        public event sendMessageCompletedEventHandler sendMessageCompleted;
+        
+        /// <remarks/>
+        public event getIMessageIdsCompletedEventHandler getIMessageIdsCompleted;
+        
+        /// <remarks/>
         public event flushMessageCompletedEventHandler flushMessageCompleted;
         
         /// <remarks/>
-        public event sendEHealthMessageCompletedEventHandler sendEHealthMessageCompleted;
+        public event reprocessMessageByIdCompletedEventHandler reprocessMessageByIdCompleted;
         
         /// <remarks/>
-        public event reprocessMessageByIdCompletedEventHandler reprocessMessageByIdCompleted;
+        public event performSqlStatementCompletedEventHandler performSqlStatementCompleted;
         
         /// <remarks/>
         public event flushAllMessagesCompletedEventHandler flushAllMessagesCompleted;
@@ -125,6 +139,9 @@ namespace MMCoreConnector.WRQueueManagement {
         public event sendSimpleMessageCompletedEventHandler sendSimpleMessageCompleted;
         
         /// <remarks/>
+        public event reprocessErrorFolderCompletedEventHandler reprocessErrorFolderCompleted;
+        
+        /// <remarks/>
         public event getMessageIdsByKindAccountCompletedEventHandler getMessageIdsByKindAccountCompleted;
         
         /// <remarks/>
@@ -134,6 +151,9 @@ namespace MMCoreConnector.WRQueueManagement {
         public event sendAsXmlCompletedEventHandler sendAsXmlCompleted;
         
         /// <remarks/>
+        public event deleteIMessageCompletedEventHandler deleteIMessageCompleted;
+        
+        /// <remarks/>
         public event getIMessageByIdCompletedEventHandler getIMessageByIdCompleted;
         
         /// <remarks/>
@@ -141,6 +161,70 @@ namespace MMCoreConnector.WRQueueManagement {
         
         /// <remarks/>
         public event getMediMailDynamicVariablesCompletedEventHandler getMediMailDynamicVariablesCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatus sendMessage(mproxyIntegrationMessage mproxyIntegrationMessage, mailBoxAccountType mailBoxAccountType) {
+            object[] results = this.Invoke("sendMessage", new object[] {
+                        mproxyIntegrationMessage,
+                        mailBoxAccountType});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void sendMessageAsync(mproxyIntegrationMessage mproxyIntegrationMessage, mailBoxAccountType mailBoxAccountType) {
+            this.sendMessageAsync(mproxyIntegrationMessage, mailBoxAccountType, null);
+        }
+        
+        /// <remarks/>
+        public void sendMessageAsync(mproxyIntegrationMessage mproxyIntegrationMessage, mailBoxAccountType mailBoxAccountType, object userState) {
+            if ((this.sendMessageOperationCompleted == null)) {
+                this.sendMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnsendMessageOperationCompleted);
+            }
+            this.InvokeAsync("sendMessage", new object[] {
+                        mproxyIntegrationMessage,
+                        mailBoxAccountType}, this.sendMessageOperationCompleted, userState);
+        }
+        
+        private void OnsendMessageOperationCompleted(object arg) {
+            if ((this.sendMessageCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.sendMessageCompleted(this, new sendMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatusStrings getIMessageIds(string mailBoxAccountId, mailBoxType arg1) {
+            object[] results = this.Invoke("getIMessageIds", new object[] {
+                        mailBoxAccountId,
+                        arg1});
+            return ((mproxyOperationStatusStrings)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void getIMessageIdsAsync(string mailBoxAccountId, mailBoxType arg1) {
+            this.getIMessageIdsAsync(mailBoxAccountId, arg1, null);
+        }
+        
+        /// <remarks/>
+        public void getIMessageIdsAsync(string mailBoxAccountId, mailBoxType arg1, object userState) {
+            if ((this.getIMessageIdsOperationCompleted == null)) {
+                this.getIMessageIdsOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetIMessageIdsOperationCompleted);
+            }
+            this.InvokeAsync("getIMessageIds", new object[] {
+                        mailBoxAccountId,
+                        arg1}, this.getIMessageIdsOperationCompleted, userState);
+        }
+        
+        private void OngetIMessageIdsOperationCompleted(object arg) {
+            if ((this.getIMessageIdsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.getIMessageIdsCompleted(this, new getIMessageIdsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
@@ -175,48 +259,6 @@ namespace MMCoreConnector.WRQueueManagement {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public mproxyOperationStatus sendEHealthMessage(string mailBoxAccountId, string ehealthType, string ehealthValue, string ehealthAppID, string fileLocation, string subject, string textMessage) {
-            object[] results = this.Invoke("sendEHealthMessage", new object[] {
-                        mailBoxAccountId,
-                        ehealthType,
-                        ehealthValue,
-                        ehealthAppID,
-                        fileLocation,
-                        subject,
-                        textMessage});
-            return ((mproxyOperationStatus)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void sendEHealthMessageAsync(string mailBoxAccountId, string ehealthType, string ehealthValue, string ehealthAppID, string fileLocation, string subject, string textMessage) {
-            this.sendEHealthMessageAsync(mailBoxAccountId, ehealthType, ehealthValue, ehealthAppID, fileLocation, subject, textMessage, null);
-        }
-        
-        /// <remarks/>
-        public void sendEHealthMessageAsync(string mailBoxAccountId, string ehealthType, string ehealthValue, string ehealthAppID, string fileLocation, string subject, string textMessage, object userState) {
-            if ((this.sendEHealthMessageOperationCompleted == null)) {
-                this.sendEHealthMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnsendEHealthMessageOperationCompleted);
-            }
-            this.InvokeAsync("sendEHealthMessage", new object[] {
-                        mailBoxAccountId,
-                        ehealthType,
-                        ehealthValue,
-                        ehealthAppID,
-                        fileLocation,
-                        subject,
-                        textMessage}, this.sendEHealthMessageOperationCompleted, userState);
-        }
-        
-        private void OnsendEHealthMessageOperationCompleted(object arg) {
-            if ((this.sendEHealthMessageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.sendEHealthMessageCompleted(this, new sendEHealthMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return")]
         public mproxyOperationStatus reprocessMessageById(int messageId) {
             object[] results = this.Invoke("reprocessMessageById", new object[] {
                         messageId});
@@ -241,6 +283,36 @@ namespace MMCoreConnector.WRQueueManagement {
             if ((this.reprocessMessageByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.reprocessMessageByIdCompleted(this, new reprocessMessageByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatus performSqlStatement(string sqlStatement) {
+            object[] results = this.Invoke("performSqlStatement", new object[] {
+                        sqlStatement});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void performSqlStatementAsync(string sqlStatement) {
+            this.performSqlStatementAsync(sqlStatement, null);
+        }
+        
+        /// <remarks/>
+        public void performSqlStatementAsync(string sqlStatement, object userState) {
+            if ((this.performSqlStatementOperationCompleted == null)) {
+                this.performSqlStatementOperationCompleted = new System.Threading.SendOrPostCallback(this.OnperformSqlStatementOperationCompleted);
+            }
+            this.InvokeAsync("performSqlStatement", new object[] {
+                        sqlStatement}, this.performSqlStatementOperationCompleted, userState);
+        }
+        
+        private void OnperformSqlStatementOperationCompleted(object arg) {
+            if ((this.performSqlStatementCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.performSqlStatementCompleted(this, new performSqlStatementCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -439,6 +511,36 @@ namespace MMCoreConnector.WRQueueManagement {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatus reprocessErrorFolder(string accountId) {
+            object[] results = this.Invoke("reprocessErrorFolder", new object[] {
+                        accountId});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void reprocessErrorFolderAsync(string accountId) {
+            this.reprocessErrorFolderAsync(accountId, null);
+        }
+        
+        /// <remarks/>
+        public void reprocessErrorFolderAsync(string accountId, object userState) {
+            if ((this.reprocessErrorFolderOperationCompleted == null)) {
+                this.reprocessErrorFolderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnreprocessErrorFolderOperationCompleted);
+            }
+            this.InvokeAsync("reprocessErrorFolder", new object[] {
+                        accountId}, this.reprocessErrorFolderOperationCompleted, userState);
+        }
+        
+        private void OnreprocessErrorFolderOperationCompleted(object arg) {
+            if ((this.reprocessErrorFolderCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.reprocessErrorFolderCompleted(this, new reprocessErrorFolderCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
         public mproxyOperationStatusStrings getMessageIdsByKindAccount(string accountId, mailBoxType mailBoxTypeId) {
             object[] results = this.Invoke("getMessageIdsByKindAccount", new object[] {
                         accountId,
@@ -533,24 +635,62 @@ namespace MMCoreConnector.WRQueueManagement {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
         [return: System.Xml.Serialization.XmlElementAttribute("return")]
-        public mproxyOperationStatusIMessage getIMessageById(int messageId) {
+        public mproxyOperationStatus deleteIMessage(string accountId, string messageId, mailBoxType boxType) {
+            object[] results = this.Invoke("deleteIMessage", new object[] {
+                        accountId,
+                        messageId,
+                        boxType});
+            return ((mproxyOperationStatus)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void deleteIMessageAsync(string accountId, string messageId, mailBoxType boxType) {
+            this.deleteIMessageAsync(accountId, messageId, boxType, null);
+        }
+        
+        /// <remarks/>
+        public void deleteIMessageAsync(string accountId, string messageId, mailBoxType boxType, object userState) {
+            if ((this.deleteIMessageOperationCompleted == null)) {
+                this.deleteIMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OndeleteIMessageOperationCompleted);
+            }
+            this.InvokeAsync("deleteIMessage", new object[] {
+                        accountId,
+                        messageId,
+                        boxType}, this.deleteIMessageOperationCompleted, userState);
+        }
+        
+        private void OndeleteIMessageOperationCompleted(object arg) {
+            if ((this.deleteIMessageCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.deleteIMessageCompleted(this, new deleteIMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("", RequestNamespace="http://operations.management.medimail.mproxy.cmp.com/", ResponseNamespace="http://operations.management.medimail.mproxy.cmp.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public mproxyOperationStatusIMessage getIMessageById(string accountId, string messageId, mailBoxType boxType) {
             object[] results = this.Invoke("getIMessageById", new object[] {
-                        messageId});
+                        accountId,
+                        messageId,
+                        boxType});
             return ((mproxyOperationStatusIMessage)(results[0]));
         }
         
         /// <remarks/>
-        public void getIMessageByIdAsync(int messageId) {
-            this.getIMessageByIdAsync(messageId, null);
+        public void getIMessageByIdAsync(string accountId, string messageId, mailBoxType boxType) {
+            this.getIMessageByIdAsync(accountId, messageId, boxType, null);
         }
         
         /// <remarks/>
-        public void getIMessageByIdAsync(int messageId, object userState) {
+        public void getIMessageByIdAsync(string accountId, string messageId, mailBoxType boxType, object userState) {
             if ((this.getIMessageByIdOperationCompleted == null)) {
                 this.getIMessageByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetIMessageByIdOperationCompleted);
             }
             this.InvokeAsync("getIMessageById", new object[] {
-                        messageId}, this.getIMessageByIdOperationCompleted, userState);
+                        accountId,
+                        messageId,
+                        boxType}, this.getIMessageByIdOperationCompleted, userState);
         }
         
         private void OngetIMessageByIdOperationCompleted(object arg) {
@@ -643,6 +783,1269 @@ namespace MMCoreConnector.WRQueueManagement {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mproxyIntegrationMessage {
+        
+        private mproxyIntegrationMessageError errorField;
+        
+        private mproxyAttachment[] mproxyAttachementsField;
+        
+        private options mproxyOptionsField;
+        
+        private string mproxyXMLMessageField;
+        
+        private destination[] receiverField;
+        
+        private destination senderField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyIntegrationMessageError error {
+            get {
+                return this.errorField;
+            }
+            set {
+                this.errorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mproxyAttachements", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mproxyAttachment[] mproxyAttachements {
+            get {
+                return this.mproxyAttachementsField;
+            }
+            set {
+                this.mproxyAttachementsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public options mproxyOptions {
+            get {
+                return this.mproxyOptionsField;
+            }
+            set {
+                this.mproxyOptionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mproxyXMLMessage {
+            get {
+                return this.mproxyXMLMessageField;
+            }
+            set {
+                this.mproxyXMLMessageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("receiver", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public destination[] receiver {
+            get {
+                return this.receiverField;
+            }
+            set {
+                this.receiverField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public destination sender {
+            get {
+                return this.senderField;
+            }
+            set {
+                this.senderField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mproxyIntegrationMessageError {
+        
+        private string directionField;
+        
+        private mproxyError mproxyErrorField;
+        
+        private bool mproxyErrorFieldSpecified;
+        
+        private string rootCauseField;
+        
+        private string stackTraceField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string direction {
+            get {
+                return this.directionField;
+            }
+            set {
+                this.directionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyError mproxyError {
+            get {
+                return this.mproxyErrorField;
+            }
+            set {
+                this.mproxyErrorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool mproxyErrorSpecified {
+            get {
+                return this.mproxyErrorFieldSpecified;
+            }
+            set {
+                this.mproxyErrorFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string rootCause {
+            get {
+                return this.rootCauseField;
+            }
+            set {
+                this.rootCauseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string stackTrace {
+            get {
+                return this.stackTraceField;
+            }
+            set {
+                this.stackTraceField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mproxyError {
+        
+        /// <remarks/>
+        CMM_USER_NOT_FOUND_ERROR,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_PARSE,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_LOAD_ATTACHMENT,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_CORRELATE_GUID,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_PERSIST,
+        
+        /// <remarks/>
+        CMM_FAILED_SAVE_TOSENT,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_PARTITION_MESSAGE,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_EXTRACT_ACKNOWLEDGE,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_EXPORT,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_TRANSFORM_TO_ACKNOWLEDGE,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_EXTRACT_MEXI,
+        
+        /// <remarks/>
+        CMM_FAILED_TO_EXTRACT_ALIAS,
+        
+        /// <remarks/>
+        CE_FAILED_TO_DECODE,
+        
+        /// <remarks/>
+        CE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        CE_FAILED_TO_ENCODE,
+        
+        /// <remarks/>
+        CE_NOT_FOUND_LABEL_PINCODE,
+        
+        /// <remarks/>
+        CMEXI_ACTH_NOT_TRANSLATED,
+        
+        /// <remarks/>
+        CMEXI_USER_NOT_FOUND_ERROR,
+        
+        /// <remarks/>
+        CMA_FAILED_TO_RETRIEVE,
+        
+        /// <remarks/>
+        INST_GENERAL_ERROR,
+        
+        /// <remarks/>
+        C_UNEXPECTED_EXCEPTION,
+        
+        /// <remarks/>
+        C_PORT_NOT_AVAILABLE_EXCEPTION,
+        
+        /// <remarks/>
+        UNKNOWN,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mproxyOperationStatusIMessage {
+        
+        private string detailedInfoField;
+        
+        private mproxyOperationResult operationResultField;
+        
+        private bool operationResultFieldSpecified;
+        
+        private mproxyIntegrationMessage[] valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string detailedInfo {
+            get {
+                return this.detailedInfoField;
+            }
+            set {
+                this.detailedInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyOperationResult operationResult {
+            get {
+                return this.operationResultField;
+            }
+            set {
+                this.operationResultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool operationResultSpecified {
+            get {
+                return this.operationResultFieldSpecified;
+            }
+            set {
+                this.operationResultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mproxyIntegrationMessage[] value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mproxyOperationResult {
+        
+        /// <remarks/>
+        MPROXY_RESULT_OK,
+        
+        /// <remarks/>
+        MPROXY_RESULT_FAILED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessageProperties {
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private string propertyIdField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string propertyId {
+            get {
+                return this.propertyIdField;
+            }
+            set {
+                this.propertyIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessageData {
+        
+        private byte[] blobField;
+        
+        private byte[] checkSumField;
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private byte[] mproxyMessageField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] blob {
+            get {
+                return this.blobField;
+            }
+            set {
+                this.blobField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] checkSum {
+            get {
+                return this.checkSumField;
+            }
+            set {
+                this.checkSumField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
+        public byte[] mproxyMessage {
+            get {
+                return this.mproxyMessageField;
+            }
+            set {
+                this.mproxyMessageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessageMuleProperties {
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private string propertyIdField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string propertyId {
+            get {
+                return this.propertyIdField;
+            }
+            set {
+                this.propertyIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessageErrorProperties {
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private string propertyIdField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string propertyId {
+            get {
+                return this.propertyIdField;
+            }
+            set {
+                this.propertyIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessageError {
+        
+        private mailBoxMessageStatus directionField;
+        
+        private bool directionFieldSpecified;
+        
+        private mailBoxMessageErrorProperties[] errorPropertiesField;
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private mproxyError mproxyErrorField;
+        
+        private bool mproxyErrorFieldSpecified;
+        
+        private mailBoxMessageMuleProperties[] mulePropertiesField;
+        
+        private string rootCauseField;
+        
+        private string stackTraceField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxMessageStatus direction {
+            get {
+                return this.directionField;
+            }
+            set {
+                this.directionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool directionSpecified {
+            get {
+                return this.directionFieldSpecified;
+            }
+            set {
+                this.directionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("errorProperties", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mailBoxMessageErrorProperties[] errorProperties {
+            get {
+                return this.errorPropertiesField;
+            }
+            set {
+                this.errorPropertiesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyError mproxyError {
+            get {
+                return this.mproxyErrorField;
+            }
+            set {
+                this.mproxyErrorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool mproxyErrorSpecified {
+            get {
+                return this.mproxyErrorFieldSpecified;
+            }
+            set {
+                this.mproxyErrorFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("muleProperties", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mailBoxMessageMuleProperties[] muleProperties {
+            get {
+                return this.mulePropertiesField;
+            }
+            set {
+                this.mulePropertiesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string rootCause {
+            get {
+                return this.rootCauseField;
+            }
+            set {
+                this.rootCauseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string stackTrace {
+            get {
+                return this.stackTraceField;
+            }
+            set {
+                this.stackTraceField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mailBoxMessageStatus {
+        
+        /// <remarks/>
+        CERTIFICATION_APPROVED,
+        
+        /// <remarks/>
+        FLUSHED,
+        
+        /// <remarks/>
+        FLUSHING,
+        
+        /// <remarks/>
+        GENERAL_ERROR,
+        
+        /// <remarks/>
+        IN_PROCESS,
+        
+        /// <remarks/>
+        MERGED,
+        
+        /// <remarks/>
+        NOT_MERGED,
+        
+        /// <remarks/>
+        NOT_READ,
+        
+        /// <remarks/>
+        READ,
+        
+        /// <remarks/>
+        RECEIVE_ERROR,
+        
+        /// <remarks/>
+        RECEIVED,
+        
+        /// <remarks/>
+        SEND_ERROR,
+        
+        /// <remarks/>
+        SENDING,
+        
+        /// <remarks/>
+        SENT,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mailBoxMessage {
+        
+        private string accountField;
+        
+        private int attachmentNumberField;
+        
+        private bool attachmentNumberFieldSpecified;
+        
+        private int attachmentsTotalField;
+        
+        private bool attachmentsTotalFieldSpecified;
+        
+        private System.DateTime dateField;
+        
+        private bool dateFieldSpecified;
+        
+        private mailBoxMessageError errorField;
+        
+        private string guidField;
+        
+        private int idField;
+        
+        private bool idFieldSpecified;
+        
+        private mailBoxMessageData infoField;
+        
+        private mailBoxType locationField;
+        
+        private bool locationFieldSpecified;
+        
+        private mailBoxMessageKind messageKindField;
+        
+        private bool messageKindFieldSpecified;
+        
+        private int partNumberField;
+        
+        private bool partNumberFieldSpecified;
+        
+        private int partsTotalField;
+        
+        private bool partsTotalFieldSpecified;
+        
+        private mailBoxMessageProperties[] propertiesField;
+        
+        private string receiverField;
+        
+        private string resourceNameField;
+        
+        private string senderField;
+        
+        private mailBoxMessageStatus statusField;
+        
+        private bool statusFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string account {
+            get {
+                return this.accountField;
+            }
+            set {
+                this.accountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int attachmentNumber {
+            get {
+                return this.attachmentNumberField;
+            }
+            set {
+                this.attachmentNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool attachmentNumberSpecified {
+            get {
+                return this.attachmentNumberFieldSpecified;
+            }
+            set {
+                this.attachmentNumberFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int attachmentsTotal {
+            get {
+                return this.attachmentsTotalField;
+            }
+            set {
+                this.attachmentsTotalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool attachmentsTotalSpecified {
+            get {
+                return this.attachmentsTotalFieldSpecified;
+            }
+            set {
+                this.attachmentsTotalFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public System.DateTime date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool dateSpecified {
+            get {
+                return this.dateFieldSpecified;
+            }
+            set {
+                this.dateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxMessageError error {
+            get {
+                return this.errorField;
+            }
+            set {
+                this.errorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string guid {
+            get {
+                return this.guidField;
+            }
+            set {
+                this.guidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool idSpecified {
+            get {
+                return this.idFieldSpecified;
+            }
+            set {
+                this.idFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxMessageData info {
+            get {
+                return this.infoField;
+            }
+            set {
+                this.infoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxType location {
+            get {
+                return this.locationField;
+            }
+            set {
+                this.locationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool locationSpecified {
+            get {
+                return this.locationFieldSpecified;
+            }
+            set {
+                this.locationFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxMessageKind messageKind {
+            get {
+                return this.messageKindField;
+            }
+            set {
+                this.messageKindField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool messageKindSpecified {
+            get {
+                return this.messageKindFieldSpecified;
+            }
+            set {
+                this.messageKindFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int partNumber {
+            get {
+                return this.partNumberField;
+            }
+            set {
+                this.partNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool partNumberSpecified {
+            get {
+                return this.partNumberFieldSpecified;
+            }
+            set {
+                this.partNumberFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int partsTotal {
+            get {
+                return this.partsTotalField;
+            }
+            set {
+                this.partsTotalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool partsTotalSpecified {
+            get {
+                return this.partsTotalFieldSpecified;
+            }
+            set {
+                this.partsTotalFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("properties", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mailBoxMessageProperties[] properties {
+            get {
+                return this.propertiesField;
+            }
+            set {
+                this.propertiesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string receiver {
+            get {
+                return this.receiverField;
+            }
+            set {
+                this.receiverField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string resourceName {
+            get {
+                return this.resourceNameField;
+            }
+            set {
+                this.resourceNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string sender {
+            get {
+                return this.senderField;
+            }
+            set {
+                this.senderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mailBoxMessageStatus status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool statusSpecified {
+            get {
+                return this.statusFieldSpecified;
+            }
+            set {
+                this.statusFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mailBoxType {
+        
+        /// <remarks/>
+        ERROR,
+        
+        /// <remarks/>
+        INBOX,
+        
+        /// <remarks/>
+        OUTBOX,
+        
+        /// <remarks/>
+        SENTBOX,
+        
+        /// <remarks/>
+        TRASH,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mailBoxMessageKind {
+        
+        /// <remarks/>
+        NORMAL,
+        
+        /// <remarks/>
+        PARTITIONED,
+        
+        /// <remarks/>
+        ACKNOWLEDGE,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mproxyOperationStatusMessage {
+        
+        private string detailedInfoField;
+        
+        private mproxyOperationResult operationResultField;
+        
+        private bool operationResultFieldSpecified;
+        
+        private mailBoxMessage[] valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string detailedInfo {
+            get {
+                return this.detailedInfoField;
+            }
+            set {
+                this.detailedInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyOperationResult operationResult {
+            get {
+                return this.operationResultField;
+            }
+            set {
+                this.operationResultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool operationResultSpecified {
+            get {
+                return this.operationResultFieldSpecified;
+            }
+            set {
+                this.operationResultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public mailBoxMessage[] value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public partial class mproxyOperationStatusStrings {
+        
+        private string detailedInfoField;
+        
+        private mproxyOperationResult operationResultField;
+        
+        private bool operationResultFieldSpecified;
+        
+        private string[] valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string detailedInfo {
+            get {
+                return this.detailedInfoField;
+            }
+            set {
+                this.detailedInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public mproxyOperationResult operationResult {
+            get {
+                return this.operationResultField;
+            }
+            set {
+                this.operationResultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool operationResultSpecified {
+            get {
+                return this.operationResultFieldSpecified;
+            }
+            set {
+                this.operationResultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public string[] value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
     public partial class mproxyOperationStatus {
         
         private string detailedInfoField;
@@ -701,14 +2104,62 @@ namespace MMCoreConnector.WRQueueManagement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public enum mproxyOperationResult {
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="com.cmp.mproxy.message")]
+    public partial class destination {
+        
+        private string typeField;
+        
+        private string valueField;
+        
+        private string applicationIDField;
+        
+        private options optionsField;
         
         /// <remarks/>
-        MPROXY_RESULT_OK,
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
         
         /// <remarks/>
-        MPROXY_RESULT_FAILED,
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string ApplicationID {
+            get {
+                return this.applicationIDField;
+            }
+            set {
+                this.applicationIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public options Options {
+            get {
+                return this.optionsField;
+            }
+            set {
+                this.optionsField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -716,8 +2167,31 @@ namespace MMCoreConnector.WRQueueManagement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyOptions {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="com.cmp.mproxy.message")]
+    public partial class options {
+        
+        private element[] mapField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+        public element[] map {
+            get {
+                return this.mapField;
+            }
+            set {
+                this.mapField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="com.cmp.mproxy.message")]
+    public partial class element {
         
         private string keyField;
         
@@ -864,712 +2338,73 @@ namespace MMCoreConnector.WRQueueManagement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
     [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
+    public enum mailBoxAccountType {
+        
+        /// <remarks/>
+        MAILBOX_MEDIBRIDGE_INTEGRATION,
+        
+        /// <remarks/>
+        MAILBOX_MEDIBRIDGE_MMCORE,
+        
+        /// <remarks/>
+        MAILBOX_MEDIBRIDGE_MMSE,
+        
+        /// <remarks/>
+        MAILBOX_MEDIBRIDGE_MEXI,
+        
+        /// <remarks/>
+        MAILBOX_EHEALTH,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void sendMessageCompletedEventHandler(object sender, sendMessageCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyIntegrationMessage {
+    public partial class sendMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
-        private mproxyAttachment[] mproxyAttachementsField;
+        private object[] results;
         
-        private mproxyOptions[] mproxyOptionsField;
-        
-        private string mproxyXMLMessageField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mproxyAttachements", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public mproxyAttachment[] mproxyAttachements {
-            get {
-                return this.mproxyAttachementsField;
-            }
-            set {
-                this.mproxyAttachementsField = value;
-            }
+        internal sendMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mproxyOptions", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public mproxyOptions[] mproxyOptions {
+        public mproxyOperationStatus Result {
             get {
-                return this.mproxyOptionsField;
-            }
-            set {
-                this.mproxyOptionsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string mproxyXMLMessage {
-            get {
-                return this.mproxyXMLMessageField;
-            }
-            set {
-                this.mproxyXMLMessageField = value;
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatus)(this.results[0]));
             }
         }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void getIMessageIdsCompletedEventHandler(object sender, getIMessageIdsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyOperationStatusIMessage {
+    public partial class getIMessageIdsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
-        private string detailedInfoField;
+        private object[] results;
         
-        private mproxyOperationResult operationResultField;
-        
-        private bool operationResultFieldSpecified;
-        
-        private mproxyIntegrationMessage[] valueField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string detailedInfo {
-            get {
-                return this.detailedInfoField;
-            }
-            set {
-                this.detailedInfoField = value;
-            }
+        internal getIMessageIdsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mproxyOperationResult operationResult {
+        public mproxyOperationStatusStrings Result {
             get {
-                return this.operationResultField;
-            }
-            set {
-                this.operationResultField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool operationResultSpecified {
-            get {
-                return this.operationResultFieldSpecified;
-            }
-            set {
-                this.operationResultFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public mproxyIntegrationMessage[] value {
-            get {
-                return this.valueField;
-            }
-            set {
-                this.valueField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mailBoxMessageData {
-        
-        private byte[] blobField;
-        
-        private byte[] checkSumField;
-        
-        private int idField;
-        
-        private bool idFieldSpecified;
-        
-        private byte[] mproxyMessageField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] blob {
-            get {
-                return this.blobField;
-            }
-            set {
-                this.blobField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] checkSum {
-            get {
-                return this.checkSumField;
-            }
-            set {
-                this.checkSumField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idSpecified {
-            get {
-                return this.idFieldSpecified;
-            }
-            set {
-                this.idFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[] mproxyMessage {
-            get {
-                return this.mproxyMessageField;
-            }
-            set {
-                this.mproxyMessageField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mailBoxMessage {
-        
-        private string accountField;
-        
-        private int attachmentNumberField;
-        
-        private bool attachmentNumberFieldSpecified;
-        
-        private int attachmentsTotalField;
-        
-        private bool attachmentsTotalFieldSpecified;
-        
-        private System.DateTime dateField;
-        
-        private bool dateFieldSpecified;
-        
-        private string guidField;
-        
-        private int idField;
-        
-        private bool idFieldSpecified;
-        
-        private mailBoxMessageData infoField;
-        
-        private mailBoxType locationField;
-        
-        private bool locationFieldSpecified;
-        
-        private mailBoxMessageKind messageKindField;
-        
-        private bool messageKindFieldSpecified;
-        
-        private int partNumberField;
-        
-        private bool partNumberFieldSpecified;
-        
-        private int partsTotalField;
-        
-        private bool partsTotalFieldSpecified;
-        
-        private string receiverField;
-        
-        private string resourceNameField;
-        
-        private string senderField;
-        
-        private mailBoxMessageStatus statusField;
-        
-        private bool statusFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string account {
-            get {
-                return this.accountField;
-            }
-            set {
-                this.accountField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int attachmentNumber {
-            get {
-                return this.attachmentNumberField;
-            }
-            set {
-                this.attachmentNumberField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool attachmentNumberSpecified {
-            get {
-                return this.attachmentNumberFieldSpecified;
-            }
-            set {
-                this.attachmentNumberFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int attachmentsTotal {
-            get {
-                return this.attachmentsTotalField;
-            }
-            set {
-                this.attachmentsTotalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool attachmentsTotalSpecified {
-            get {
-                return this.attachmentsTotalFieldSpecified;
-            }
-            set {
-                this.attachmentsTotalFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public System.DateTime date {
-            get {
-                return this.dateField;
-            }
-            set {
-                this.dateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool dateSpecified {
-            get {
-                return this.dateFieldSpecified;
-            }
-            set {
-                this.dateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string guid {
-            get {
-                return this.guidField;
-            }
-            set {
-                this.guidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idSpecified {
-            get {
-                return this.idFieldSpecified;
-            }
-            set {
-                this.idFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mailBoxMessageData info {
-            get {
-                return this.infoField;
-            }
-            set {
-                this.infoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mailBoxType location {
-            get {
-                return this.locationField;
-            }
-            set {
-                this.locationField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool locationSpecified {
-            get {
-                return this.locationFieldSpecified;
-            }
-            set {
-                this.locationFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mailBoxMessageKind messageKind {
-            get {
-                return this.messageKindField;
-            }
-            set {
-                this.messageKindField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool messageKindSpecified {
-            get {
-                return this.messageKindFieldSpecified;
-            }
-            set {
-                this.messageKindFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int partNumber {
-            get {
-                return this.partNumberField;
-            }
-            set {
-                this.partNumberField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool partNumberSpecified {
-            get {
-                return this.partNumberFieldSpecified;
-            }
-            set {
-                this.partNumberFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int partsTotal {
-            get {
-                return this.partsTotalField;
-            }
-            set {
-                this.partsTotalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool partsTotalSpecified {
-            get {
-                return this.partsTotalFieldSpecified;
-            }
-            set {
-                this.partsTotalFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string receiver {
-            get {
-                return this.receiverField;
-            }
-            set {
-                this.receiverField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string resourceName {
-            get {
-                return this.resourceNameField;
-            }
-            set {
-                this.resourceNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string sender {
-            get {
-                return this.senderField;
-            }
-            set {
-                this.senderField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mailBoxMessageStatus status {
-            get {
-                return this.statusField;
-            }
-            set {
-                this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool statusSpecified {
-            get {
-                return this.statusFieldSpecified;
-            }
-            set {
-                this.statusFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public enum mailBoxType {
-        
-        /// <remarks/>
-        ERROR,
-        
-        /// <remarks/>
-        INBOX,
-        
-        /// <remarks/>
-        OUTBOX,
-        
-        /// <remarks/>
-        SENTBOX,
-        
-        /// <remarks/>
-        TRASH,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public enum mailBoxMessageKind {
-        
-        /// <remarks/>
-        NORMAL,
-        
-        /// <remarks/>
-        PARTITIONED,
-        
-        /// <remarks/>
-        ACKNOWLEDGE,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public enum mailBoxMessageStatus {
-        
-        /// <remarks/>
-        CERTIFICATION_APPROVED,
-        
-        /// <remarks/>
-        FLUSHED,
-        
-        /// <remarks/>
-        FLUSHING,
-        
-        /// <remarks/>
-        GENERAL_ERROR,
-        
-        /// <remarks/>
-        IN_PROCESS,
-        
-        /// <remarks/>
-        MERGED,
-        
-        /// <remarks/>
-        NOT_MERGED,
-        
-        /// <remarks/>
-        NOT_READ,
-        
-        /// <remarks/>
-        READ,
-        
-        /// <remarks/>
-        RECEIVE_ERROR,
-        
-        /// <remarks/>
-        RECEIVED,
-        
-        /// <remarks/>
-        SEND_ERROR,
-        
-        /// <remarks/>
-        SENDING,
-        
-        /// <remarks/>
-        SENT,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyOperationStatusMessage {
-        
-        private string detailedInfoField;
-        
-        private mproxyOperationResult operationResultField;
-        
-        private bool operationResultFieldSpecified;
-        
-        private mailBoxMessage[] valueField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string detailedInfo {
-            get {
-                return this.detailedInfoField;
-            }
-            set {
-                this.detailedInfoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mproxyOperationResult operationResult {
-            get {
-                return this.operationResultField;
-            }
-            set {
-                this.operationResultField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool operationResultSpecified {
-            get {
-                return this.operationResultFieldSpecified;
-            }
-            set {
-                this.operationResultFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public mailBoxMessage[] value {
-            get {
-                return this.valueField;
-            }
-            set {
-                this.valueField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1433")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://operations.management.medimail.mproxy.cmp.com/")]
-    public partial class mproxyOperationStatusStrings {
-        
-        private string detailedInfoField;
-        
-        private mproxyOperationResult operationResultField;
-        
-        private bool operationResultFieldSpecified;
-        
-        private string[] valueField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string detailedInfo {
-            get {
-                return this.detailedInfoField;
-            }
-            set {
-                this.detailedInfoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public mproxyOperationResult operationResult {
-            get {
-                return this.operationResultField;
-            }
-            set {
-                this.operationResultField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool operationResultSpecified {
-            get {
-                return this.operationResultFieldSpecified;
-            }
-            set {
-                this.operationResultFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public string[] value {
-            get {
-                return this.valueField;
-            }
-            set {
-                this.valueField = value;
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatusStrings)(this.results[0]));
             }
         }
     }
@@ -1602,17 +2437,17 @@ namespace MMCoreConnector.WRQueueManagement {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
-    public delegate void sendEHealthMessageCompletedEventHandler(object sender, sendEHealthMessageCompletedEventArgs e);
+    public delegate void reprocessMessageByIdCompletedEventHandler(object sender, reprocessMessageByIdCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class sendEHealthMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class reprocessMessageByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal sendEHealthMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal reprocessMessageByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1628,17 +2463,17 @@ namespace MMCoreConnector.WRQueueManagement {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
-    public delegate void reprocessMessageByIdCompletedEventHandler(object sender, reprocessMessageByIdCompletedEventArgs e);
+    public delegate void performSqlStatementCompletedEventHandler(object sender, performSqlStatementCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class reprocessMessageByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class performSqlStatementCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal reprocessMessageByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal performSqlStatementCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1810,6 +2645,32 @@ namespace MMCoreConnector.WRQueueManagement {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void reprocessErrorFolderCompletedEventHandler(object sender, reprocessErrorFolderCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class reprocessErrorFolderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal reprocessErrorFolderCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public mproxyOperationStatus Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatus)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
     public delegate void getMessageIdsByKindAccountCompletedEventHandler(object sender, getMessageIdsByKindAccountCompletedEventArgs e);
     
     /// <remarks/>
@@ -1873,6 +2734,32 @@ namespace MMCoreConnector.WRQueueManagement {
         private object[] results;
         
         internal sendAsXmlCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public mproxyOperationStatus Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((mproxyOperationStatus)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    public delegate void deleteIMessageCompletedEventHandler(object sender, deleteIMessageCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1433")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class deleteIMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal deleteIMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

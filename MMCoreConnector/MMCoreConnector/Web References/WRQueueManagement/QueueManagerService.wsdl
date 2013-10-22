@@ -1,7 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions xmlns:tns="http://operations.management.medimail.mproxy.cmp.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="QueueManagerService" targetNamespace="http://operations.management.medimail.mproxy.cmp.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://operations.management.medimail.mproxy.cmp.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema xmlns:tns="com.cmp.mproxy.message" xmlns:ns1="http://operations.management.medimail.mproxy.cmp.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="com.cmp.mproxy.message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      <xs:element name="mproxyMessage" nillable="true" type="tns:mproxyMessage" />
+      <xs:complexType name="options">
+        <xs:sequence>
+          <xs:element name="map" type="tns:map" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="map">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="element" type="tns:element" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="element">
+        <xs:sequence>
+          <xs:element name="key" type="xs:string" />
+          <xs:element name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="destination">
+        <xs:sequence>
+          <xs:element name="Type" type="xs:string" />
+          <xs:element name="Value" type="xs:string" />
+          <xs:element minOccurs="0" name="ApplicationID" type="xs:string" />
+          <xs:element minOccurs="0" name="Options" type="tns:options" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="attachment">
+        <xs:sequence>
+          <xs:element name="uri" type="xs:string" />
+          <xs:element minOccurs="0" name="metadata" type="tns:map" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyMessage">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:abstractMproxyMessage">
+            <xs:sequence>
+              <xs:element default="4" name="version" type="xs:string" />
+              <xs:element name="receiver" type="tns:destinations" />
+              <xs:element minOccurs="0" name="sender" type="tns:destination" />
+              <xs:element name="attachments" type="tns:attachments" />
+              <xs:element minOccurs="0" name="option" type="tns:options" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="destinations">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="destination" type="tns:destination" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="attachments">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="attachment" type="tns:attachment" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:ns1="com.cmp.mproxy.message" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://operations.management.medimail.mproxy.cmp.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="com.cmp.mproxy.message" />
+      <xs:complexType name="mproxyIntegrationMessage" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="error" type="tns:mproxyIntegrationMessageError" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="mproxyAttachements" nillable="true" type="tns:mproxyAttachment" />
+          <xs:element minOccurs="0" name="mproxyOptions" type="ns1:options" />
+          <xs:element minOccurs="0" name="mproxyXMLMessage" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="receiver" nillable="true" type="ns1:destination" />
+          <xs:element minOccurs="0" name="sender" type="ns1:destination" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyIntegrationMessageError">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="direction" type="xs:string" />
+          <xs:element minOccurs="0" name="mproxyError" type="tns:mproxyError" />
+          <xs:element minOccurs="0" name="rootCause" type="xs:string" />
+          <xs:element minOccurs="0" name="stackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mproxyAttachment" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="attachmentId" type="xs:string" />
+          <xs:element minOccurs="0" name="content" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="info" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="status" type="tns:mproxyMessageStatus" />
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="mproxyOperationStatus" final="extension restriction">
         <xs:sequence>
           <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
@@ -29,6 +114,7 @@
           <xs:element minOccurs="0" name="attachmentNumber" type="xs:int" />
           <xs:element minOccurs="0" name="attachmentsTotal" type="xs:int" />
           <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="error" type="tns:mailBoxMessageError" />
           <xs:element minOccurs="0" name="guid" type="xs:string" />
           <xs:element minOccurs="0" name="id" type="xs:int" />
           <xs:element minOccurs="0" name="info" type="tns:mailBoxMessageData" />
@@ -36,10 +122,36 @@
           <xs:element minOccurs="0" name="messageKind" type="tns:mailBoxMessageKind" />
           <xs:element minOccurs="0" name="partNumber" type="xs:int" />
           <xs:element minOccurs="0" name="partsTotal" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="properties" nillable="true" type="tns:mailBoxMessageProperties" />
           <xs:element minOccurs="0" name="receiver" type="xs:string" />
           <xs:element minOccurs="0" name="resourceName" type="xs:string" />
           <xs:element minOccurs="0" name="sender" type="xs:string" />
           <xs:element minOccurs="0" name="status" type="tns:mailBoxMessageStatus" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mailBoxMessageError">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="direction" type="tns:mailBoxMessageStatus" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="errorProperties" nillable="true" type="tns:mailBoxMessageErrorProperties" />
+          <xs:element minOccurs="0" name="id" type="xs:int" />
+          <xs:element minOccurs="0" name="mproxyError" type="tns:mproxyError" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="muleProperties" nillable="true" type="tns:mailBoxMessageMuleProperties" />
+          <xs:element minOccurs="0" name="rootCause" type="xs:string" />
+          <xs:element minOccurs="0" name="stackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mailBoxMessageErrorProperties" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:int" />
+          <xs:element minOccurs="0" name="propertyId" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mailBoxMessageMuleProperties" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:int" />
+          <xs:element minOccurs="0" name="propertyId" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="mailBoxMessageData">
@@ -50,33 +162,18 @@
           <xs:element minOccurs="0" name="mproxyMessage" type="xs:base64Binary" />
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="mailBoxMessageProperties" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:int" />
+          <xs:element minOccurs="0" name="propertyId" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="mproxyOperationStatusIMessage" final="extension restriction">
         <xs:sequence>
           <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
           <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
           <xs:element minOccurs="0" maxOccurs="unbounded" name="value" nillable="true" type="tns:mproxyIntegrationMessage" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="mproxyIntegrationMessage" final="extension restriction">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="mproxyAttachements" nillable="true" type="tns:mproxyAttachment" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="mproxyOptions" nillable="true" type="tns:mproxyOptions" />
-          <xs:element minOccurs="0" name="mproxyXMLMessage" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="mproxyAttachment" final="extension restriction">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="attachmentId" type="xs:string" />
-          <xs:element minOccurs="0" name="content" type="xs:base64Binary" />
-          <xs:element minOccurs="0" name="info" type="xs:string" />
-          <xs:element minOccurs="0" name="name" type="xs:string" />
-          <xs:element minOccurs="0" name="status" type="tns:mproxyMessageStatus" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="mproxyOptions" final="extension restriction">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="key" type="xs:string" />
-          <xs:element minOccurs="0" name="value" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="hashSet">
@@ -96,6 +193,56 @@
       <xs:complexType name="abstractCollection" abstract="true">
         <xs:sequence />
       </xs:complexType>
+      <xs:complexType name="abstractMproxyMessage" abstract="true">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:simpleType name="mproxyError">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CMM_USER_NOT_FOUND_ERROR" />
+          <xs:enumeration value="CMM_FAILED_TO_PARSE" />
+          <xs:enumeration value="CMM_FAILED_TO_LOAD_ATTACHMENT" />
+          <xs:enumeration value="CMM_FAILED_TO_CORRELATE_GUID" />
+          <xs:enumeration value="CMM_FAILED_TO_PERSIST" />
+          <xs:enumeration value="CMM_FAILED_SAVE_TOSENT" />
+          <xs:enumeration value="CMM_FAILED_TO_PARTITION_MESSAGE" />
+          <xs:enumeration value="CMM_FAILED_TO_EXTRACT_ACKNOWLEDGE" />
+          <xs:enumeration value="CMM_FAILED_TO_EXPORT" />
+          <xs:enumeration value="CMM_FAILED_TO_TRANSFORM_TO_ACKNOWLEDGE" />
+          <xs:enumeration value="CMM_FAILED_TO_EXTRACT_MEXI" />
+          <xs:enumeration value="CMM_FAILED_TO_EXTRACT_ALIAS" />
+          <xs:enumeration value="CE_FAILED_TO_DECODE" />
+          <xs:enumeration value="CE_NOT_SUPPORTED" />
+          <xs:enumeration value="CE_FAILED_TO_ENCODE" />
+          <xs:enumeration value="CE_NOT_FOUND_LABEL_PINCODE" />
+          <xs:enumeration value="CMEXI_ACTH_NOT_TRANSLATED" />
+          <xs:enumeration value="CMEXI_USER_NOT_FOUND_ERROR" />
+          <xs:enumeration value="CMA_FAILED_TO_RETRIEVE" />
+          <xs:enumeration value="INST_GENERAL_ERROR" />
+          <xs:enumeration value="C_UNEXPECTED_EXCEPTION" />
+          <xs:enumeration value="C_PORT_NOT_AVAILABLE_EXCEPTION" />
+          <xs:enumeration value="UNKNOWN" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="mproxyMessageStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE" />
+          <xs:enumeration value="MMS_MESSAGE_ENQUIRED_FOR_ENCODING" />
+          <xs:enumeration value="MMS_MESSAGE_ENQUIRED_FOR_DECODING" />
+          <xs:enumeration value="MMS_MESSAGE_FAILED_TO_ENCODE" />
+          <xs:enumeration value="MMS_MESSAGE_FAILED_TO_DECODE" />
+          <xs:enumeration value="MMS_MESSAGE_SUCCESSFULLY_ENCODED" />
+          <xs:enumeration value="MMS_MESSAGE_SUCCESSFULLY_DECODED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="mailBoxAccountType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MAILBOX_MEDIBRIDGE_INTEGRATION" />
+          <xs:enumeration value="MAILBOX_MEDIBRIDGE_MMCORE" />
+          <xs:enumeration value="MAILBOX_MEDIBRIDGE_MMSE" />
+          <xs:enumeration value="MAILBOX_MEDIBRIDGE_MEXI" />
+          <xs:enumeration value="MAILBOX_EHEALTH" />
+        </xs:restriction>
+      </xs:simpleType>
       <xs:simpleType name="mproxyOperationResult">
         <xs:restriction base="xs:string">
           <xs:enumeration value="MPROXY_RESULT_OK" />
@@ -109,13 +256,6 @@
           <xs:enumeration value="OUTBOX" />
           <xs:enumeration value="SENTBOX" />
           <xs:enumeration value="TRASH" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="mailBoxMessageKind">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="NORMAL" />
-          <xs:enumeration value="PARTITIONED" />
-          <xs:enumeration value="ACKNOWLEDGE" />
         </xs:restriction>
       </xs:simpleType>
       <xs:simpleType name="mailBoxMessageStatus">
@@ -136,19 +276,18 @@
           <xs:enumeration value="SENT" />
         </xs:restriction>
       </xs:simpleType>
-      <xs:simpleType name="mproxyMessageStatus">
+      <xs:simpleType name="mailBoxMessageKind">
         <xs:restriction base="xs:string">
-          <xs:enumeration value="NONE" />
-          <xs:enumeration value="MMS_MESSAGE_ENQUIRED_FOR_ENCODING" />
-          <xs:enumeration value="MMS_MESSAGE_ENQUIRED_FOR_DECODING" />
-          <xs:enumeration value="MMS_MESSAGE_FAILED_TO_ENCODE" />
-          <xs:enumeration value="MMS_MESSAGE_FAILED_TO_DECODE" />
-          <xs:enumeration value="MMS_MESSAGE_SUCCESSFULLY_ENCODED" />
-          <xs:enumeration value="MMS_MESSAGE_SUCCESSFULLY_DECODED" />
+          <xs:enumeration value="NORMAL" />
+          <xs:enumeration value="PARTITIONED" />
+          <xs:enumeration value="ACKNOWLEDGE" />
         </xs:restriction>
       </xs:simpleType>
     </xs:schema>
   </wsdl:types>
+  <wsdl:message name="sendMessageResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
   <wsdl:message name="reprocessMessageById">
     <wsdl:part name="messageId" type="xsd:int" />
   </wsdl:message>
@@ -162,13 +301,30 @@
   <wsdl:message name="sendAllMessagesResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
+  <wsdl:message name="deleteIMessage">
+    <wsdl:part name="accountId" type="xsd:string" />
+    <wsdl:part name="messageId" type="xsd:string" />
+    <wsdl:part name="boxType" type="tns:mailBoxType" />
+  </wsdl:message>
   <wsdl:message name="getMediMailDynamicVariables" />
   <wsdl:message name="getMessageIdsByKindAccount">
     <wsdl:part name="accountId" type="xsd:string" />
     <wsdl:part name="mailBoxTypeId" type="tns:mailBoxType" />
   </wsdl:message>
+  <wsdl:message name="deleteIMessageResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="getIMessageIdsResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatusStrings" />
+  </wsdl:message>
+  <wsdl:message name="reprocessErrorFolder">
+    <wsdl:part name="accountId" type="xsd:string" />
+  </wsdl:message>
   <wsdl:message name="getMediMailDynamicVariablesResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusStrings" />
+  </wsdl:message>
+  <wsdl:message name="performSqlStatement">
+    <wsdl:part name="sqlStatement" type="xsd:string" />
   </wsdl:message>
   <wsdl:message name="getIMessageByIdResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusIMessage" />
@@ -176,23 +332,14 @@
   <wsdl:message name="deleteAllMessagesResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
+  <wsdl:message name="getMessageById">
+    <wsdl:part name="messageId" type="xsd:int" />
+  </wsdl:message>
   <wsdl:message name="flushAllMessagesResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
   <wsdl:message name="reprocessMessageByIdResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
-  </wsdl:message>
-  <wsdl:message name="sendEHealthMessage">
-    <wsdl:part name="mailBoxAccountId" type="xsd:string" />
-    <wsdl:part name="ehealthType" type="xsd:string" />
-    <wsdl:part name="ehealthValue" type="xsd:string" />
-    <wsdl:part name="ehealthAppID" type="xsd:string" />
-    <wsdl:part name="fileLocation" type="xsd:string" />
-    <wsdl:part name="subject" type="xsd:string" />
-    <wsdl:part name="textMessage" type="xsd:string" />
-  </wsdl:message>
-  <wsdl:message name="getMessageById">
-    <wsdl:part name="messageId" type="xsd:int" />
   </wsdl:message>
   <wsdl:message name="flushMessageResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
@@ -200,8 +347,12 @@
   <wsdl:message name="deleteMessage">
     <wsdl:part name="mailBoxMessageId" type="xsd:int" />
   </wsdl:message>
-  <wsdl:message name="sendEHealthMessageResponse">
+  <wsdl:message name="performSqlStatementResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="sendMessage">
+    <wsdl:part name="mproxyIntegrationMessage" type="tns:mproxyIntegrationMessage" />
+    <wsdl:part name="mailBoxAccountType" type="tns:mailBoxAccountType" />
   </wsdl:message>
   <wsdl:message name="deleteAllMessages">
     <wsdl:part name="mailBoxAccountId" type="xsd:string" />
@@ -213,17 +364,28 @@
   <wsdl:message name="getMessageIdsByTypeResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusStrings" />
   </wsdl:message>
+  <wsdl:message name="reprocessErrorFolderResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="getIMessageIds">
+    <wsdl:part name="mailBoxAccountId" type="xsd:string" />
+    <wsdl:part name="arg1" type="tns:mailBoxType" />
+  </wsdl:message>
   <wsdl:message name="getMessageIdsByKindAccountResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusStrings" />
-  </wsdl:message>
-  <wsdl:message name="sendSimpleMessageResponse">
-    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
   <wsdl:message name="getMessageByIdResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusMessage" />
   </wsdl:message>
+  <wsdl:message name="sendSimpleMessageResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
   <wsdl:message name="getMessageIds">
     <wsdl:part name="mailBoxAccountId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="sendAsXml">
+    <wsdl:part name="mailBoxAccountId" type="xsd:string" />
+    <wsdl:part name="xmlMessageB64" type="xsd:string" />
   </wsdl:message>
   <wsdl:message name="sendSimpleMessage">
     <wsdl:part name="mailBoxAccountId" type="xsd:string" />
@@ -232,37 +394,43 @@
     <wsdl:part name="subject" type="xsd:string" />
     <wsdl:part name="textMessage" type="xsd:string" />
   </wsdl:message>
-  <wsdl:message name="sendAsXml">
-    <wsdl:part name="mailBoxAccountId" type="xsd:string" />
-    <wsdl:part name="xmlMessageB64" type="xsd:string" />
-  </wsdl:message>
   <wsdl:message name="deleteMessageResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
   <wsdl:message name="flushMessage">
     <wsdl:part name="mailBoxMessageId" type="xsd:int" />
   </wsdl:message>
+  <wsdl:message name="getIMessageById">
+    <wsdl:part name="accountId" type="xsd:string" />
+    <wsdl:part name="messageId" type="xsd:string" />
+    <wsdl:part name="boxType" type="tns:mailBoxType" />
+  </wsdl:message>
   <wsdl:message name="flushAllMessages">
     <wsdl:part name="mailBoxAccountId" type="xsd:string" />
-  </wsdl:message>
-  <wsdl:message name="getIMessageById">
-    <wsdl:part name="messageId" type="xsd:int" />
   </wsdl:message>
   <wsdl:message name="sendAllMessages">
     <wsdl:part name="mailBoxAccountId" type="xsd:string" />
   </wsdl:message>
   <wsdl:portType name="MediMailQueueManagement">
+    <wsdl:operation name="sendMessage">
+      <wsdl:input name="sendMessage" message="tns:sendMessage" />
+      <wsdl:output name="sendMessageResponse" message="tns:sendMessageResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getIMessageIds">
+      <wsdl:input name="getIMessageIds" message="tns:getIMessageIds" />
+      <wsdl:output name="getIMessageIdsResponse" message="tns:getIMessageIdsResponse" />
+    </wsdl:operation>
     <wsdl:operation name="flushMessage">
       <wsdl:input name="flushMessage" message="tns:flushMessage" />
       <wsdl:output name="flushMessageResponse" message="tns:flushMessageResponse" />
     </wsdl:operation>
-    <wsdl:operation name="sendEHealthMessage">
-      <wsdl:input name="sendEHealthMessage" message="tns:sendEHealthMessage" />
-      <wsdl:output name="sendEHealthMessageResponse" message="tns:sendEHealthMessageResponse" />
-    </wsdl:operation>
     <wsdl:operation name="reprocessMessageById">
       <wsdl:input name="reprocessMessageById" message="tns:reprocessMessageById" />
       <wsdl:output name="reprocessMessageByIdResponse" message="tns:reprocessMessageByIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="performSqlStatement">
+      <wsdl:input name="performSqlStatement" message="tns:performSqlStatement" />
+      <wsdl:output name="performSqlStatementResponse" message="tns:performSqlStatementResponse" />
     </wsdl:operation>
     <wsdl:operation name="flushAllMessages">
       <wsdl:input name="flushAllMessages" message="tns:flushAllMessages" />
@@ -288,6 +456,10 @@
       <wsdl:input name="sendSimpleMessage" message="tns:sendSimpleMessage" />
       <wsdl:output name="sendSimpleMessageResponse" message="tns:sendSimpleMessageResponse" />
     </wsdl:operation>
+    <wsdl:operation name="reprocessErrorFolder">
+      <wsdl:input name="reprocessErrorFolder" message="tns:reprocessErrorFolder" />
+      <wsdl:output name="reprocessErrorFolderResponse" message="tns:reprocessErrorFolderResponse" />
+    </wsdl:operation>
     <wsdl:operation name="getMessageIdsByKindAccount">
       <wsdl:input name="getMessageIdsByKindAccount" message="tns:getMessageIdsByKindAccount" />
       <wsdl:output name="getMessageIdsByKindAccountResponse" message="tns:getMessageIdsByKindAccountResponse" />
@@ -299,6 +471,10 @@
     <wsdl:operation name="sendAsXml">
       <wsdl:input name="sendAsXml" message="tns:sendAsXml" />
       <wsdl:output name="sendAsXmlResponse" message="tns:sendAsXmlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteIMessage">
+      <wsdl:input name="deleteIMessage" message="tns:deleteIMessage" />
+      <wsdl:output name="deleteIMessageResponse" message="tns:deleteIMessageResponse" />
     </wsdl:operation>
     <wsdl:operation name="getIMessageById">
       <wsdl:input name="getIMessageById" message="tns:getIMessageById" />
@@ -315,6 +491,24 @@
   </wsdl:portType>
   <wsdl:binding name="QueueManagerServiceSoapBinding" type="tns:MediMailQueueManagement">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getIMessageIds">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getIMessageIds">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="getIMessageIdsResponse">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendMessage">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="sendMessage">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="sendMessageResponse">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="flushMessage">
       <soap:operation soapAction="" style="rpc" />
       <wsdl:input name="flushMessage">
@@ -324,12 +518,12 @@
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="sendEHealthMessage">
+    <wsdl:operation name="performSqlStatement">
       <soap:operation soapAction="" style="rpc" />
-      <wsdl:input name="sendEHealthMessage">
+      <wsdl:input name="performSqlStatement">
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:input>
-      <wsdl:output name="sendEHealthMessageResponse">
+      <wsdl:output name="performSqlStatementResponse">
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>
@@ -396,6 +590,15 @@
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="reprocessErrorFolder">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="reprocessErrorFolder">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="reprocessErrorFolderResponse">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getMessageById">
       <soap:operation soapAction="" style="rpc" />
       <wsdl:input name="getMessageById">
@@ -411,6 +614,15 @@
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:input>
       <wsdl:output name="getMessageIdsByKindAccountResponse">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteIMessage">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="deleteIMessage">
+        <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="deleteIMessageResponse">
         <soap:body use="literal" namespace="http://operations.management.medimail.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>

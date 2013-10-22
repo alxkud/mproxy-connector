@@ -73,6 +73,13 @@
           <xs:element minOccurs="0" name="version" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="mproxyOperationStatusStrings" final="extension restriction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="detailedInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="operationResult" type="tns:mproxyOperationResult" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="value" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
       <xs:simpleType name="mproxyOperationResult">
         <xs:restriction base="xs:string">
           <xs:enumeration value="MPROXY_RESULT_OK" />
@@ -100,11 +107,11 @@
   <message name="AccountEndpoint_findAccountResponse">
     <part name="return" type="tns:mproxyOperationStatusPerson" />
   </message>
-  <message name="AccountEndpoint_createAccountWSResponse">
-    <part name="return" type="tns:mproxyOperationStatusPerson" />
-  </message>
   <message name="AccountEndpoint_getCriteriaNamesListResponse">
     <part name="return" type="tns:searchingCriteriaArray" />
+  </message>
+  <message name="AccountEndpoint_createAccountWSResponse">
+    <part name="return" type="tns:mproxyOperationStatusPerson" />
   </message>
   <message name="AccountEndpoint_removeAccount">
     <part name="arg0" type="xsd:string" />
@@ -116,6 +123,10 @@
   <message name="AccountEndpoint_findAccountByLdapSearchResponse">
     <part name="return" type="tns:mproxyOperationStatusPerson" />
   </message>
+  <message name="AccountEndpoint_getAttributeById">
+    <part name="LDAPAttribute" type="xsd:string" />
+    <part name="Id" type="xsd:string" />
+  </message>
   <message name="AccountEndpoint_findAccount">
     <part name="userId" type="xsd:string" />
   </message>
@@ -125,6 +136,9 @@
   </message>
   <message name="AccountEndpoint_findByLoginOnDocsWSResponse">
     <part name="return" type="tns:mproxyOperationStatusPerson" />
+  </message>
+  <message name="AccountEndpoint_getAttributeByIdResponse">
+    <part name="return" type="tns:mproxyOperationStatusStrings" />
   </message>
   <message name="AccountEndpoint_findAccountByCriteriaResponse">
     <part name="return" type="tns:mproxyOperationStatusPerson" />
@@ -162,6 +176,10 @@
     <operation name="findByLoginOnDocsWS" parameterOrder="server login">
       <input message="tns:AccountEndpoint_findByLoginOnDocsWS" />
       <output message="tns:AccountEndpoint_findByLoginOnDocsWSResponse" />
+    </operation>
+    <operation name="getAttributeById" parameterOrder="LDAPAttribute Id">
+      <input message="tns:AccountEndpoint_getAttributeById" />
+      <output message="tns:AccountEndpoint_getAttributeByIdResponse" />
     </operation>
     <operation name="getCriteriaNamesList">
       <input message="tns:AccountEndpoint_getCriteriaNamesList" />
@@ -212,6 +230,15 @@
       </output>
     </operation>
     <operation name="findByLoginOnDocsWS">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />
+      </output>
+    </operation>
+    <operation name="getAttributeById">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" namespace="http://session.kernel.cmp.com/" />

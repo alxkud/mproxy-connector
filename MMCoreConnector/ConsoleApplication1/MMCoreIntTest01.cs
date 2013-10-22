@@ -16,12 +16,17 @@ namespace MMCoreIntegrationTests.Tests
         private static readonly string PINCODE = "ixem";
         private static readonly string TEST_STRING = "HelloMMCoreWorld...";
         private static readonly string SenderFirstName = "Michael";
-        private static readonly string SenderLastName = "Jackson";
+        private static string SenderLastName = "Jackson";
         private static readonly string ReceiverFirstName = "Freddy";
-        private static readonly string ReceiverLastName = "Mercury";
+        private static string ReceiverLastName = "Mercury";
         private static MMCoreConnector.WRAccount.person sender;
         private static MMCoreConnector.WRAccount.person receiver;
-
+        private MMCoreConnector.WRQueueManagement.destination destSender;
+        private MMCoreConnector.WRQueueManagement.destination[] destReceiver = new MMCoreConnector.WRQueueManagement.destination[] { null };
+        private static readonly string contentStr = "TEST EHEALTH MESSAGE";
+        private static byte[] content;
+        private static readonly string name = "MPROXYATTACHEMENT1";
+        private static readonly string attachmentId = "MPROXYATTACHEMENT1";
         public static string generateMexiAddress(string firstName, string lastName, string inami, string ca)
         {
             string result = "";
@@ -47,7 +52,7 @@ namespace MMCoreIntegrationTests.Tests
         {
             MMCoreConnector.WRAccount.person person = new MMCoreConnector.WRAccount.person();
             person.firstName = ReceiverFirstName;
-            person.lastName = ReceiverLastName;
+            person.lastName = ReceiverLastName +Guid.NewGuid();
             person.login = person.firstName + "." + person.lastName;
             Random randomGenerator = new Random();
             person.version = "VERSION_MPROXY";
@@ -64,7 +69,7 @@ namespace MMCoreIntegrationTests.Tests
         {
             MMCoreConnector.WRAccount.person person = new MMCoreConnector.WRAccount.person();
             person.firstName = SenderFirstName;
-            person.lastName = SenderLastName;
+            person.lastName = SenderLastName + Guid.NewGuid();
             person.login = person.firstName + "." + person.lastName;
             Random randomGenerator = new Random();
             person.version = "VERSION_MPROXY";
@@ -141,7 +146,6 @@ namespace MMCoreIntegrationTests.Tests
                 {
                     Console.WriteLine("createServerAccount : " + person.login + " CREATED");
                     res = mosp.value[0];
-
                 }
             }
             else
@@ -169,6 +173,8 @@ namespace MMCoreIntegrationTests.Tests
             {
                 Console.WriteLine("createLocalAccount : " + person.login + " NOT CREATED...");
             }
+            updateLocalAccountPassword(person);
+
         }
         private static MMCoreConnector.WRAccount.person verifyServerAccountExist(MMCoreConnector.WRAccount.person person)
         {
@@ -214,33 +220,7 @@ namespace MMCoreIntegrationTests.Tests
             return returnValue;
         }
 
-        private static void sendMessage(MMCoreConnector.WRAccount.person personSender, MMCoreConnector.WRAccount.person personReceiver)
-        {
-            Console.WriteLine("sendMessage : SND: " + personSender.login + "; RCV: " + personReceiver.login);
-            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = composeMessage();
 
-            string fileName = createTempFile();
-
-            string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-"<mproxyMessage xmlns:ns2=\"com.cmp.mproxy.message\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ns2:mproxyMessage\">" +
-    "<version>2</version>" +
-    "<receiver><uid>" + personReceiver.login + "</uid></receiver><sender><uid>" + personSender.login + "</uid></sender>" +
-    "<attachments><attachment><uri>" + fileName + "</uri></attachment></attachments></mproxyMessage>";
-
-            string xmlB64 = EncodeTo64(xml);
-
-            MMCoreConnector.WRQueueManagement.mproxyOperationStatus mos = services.MMCoreServiceQueueManagement.sendAsXml(personSender.login, xmlB64);
-
-            Console.WriteLine("RESULT: " + mos.operationResult + " INFO: " + mos.detailedInfo + " OUT: " + mos.operationOutputValue);
-            if (mos.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_OK))
-            {
-                Console.WriteLine("SENT");
-            }
-            else
-            {
-                Console.WriteLine("NOT SENT...");
-            }
-        }
 
         private static string createTempFile()
         {
@@ -248,6 +228,27 @@ namespace MMCoreIntegrationTests.Tests
             System.IO.File.WriteAllText(fileName, TEST_STRING);
             Console.WriteLine("Temp file created : " + fileName);
             return fileName;
+        }
+        private static void updateLocalAccountPassword(MMCoreConnector.WRAccount.person person)
+        {
+            MMCoreConnector.WRMailBoxAccount.mailBoxAccount accountLoc=null;
+
+            MMCoreConnector.WRMailBoxAccount.mproxyOperationStatusAccount mosp = services.MMCoreServiceMailBoxAccount.readById(person.login);
+            Console.WriteLine("verifyLocalAccountExist : " + person.login + "  IS: " + mosp.operationResult);
+            if (mosp.operationResult.Equals(MMCoreConnector.WRMailBoxAccount.mproxyOperationResult.MPROXY_RESULT_OK))
+            {
+                if (mosp.detailedInfo.Equals("Successfully read"))
+                {
+                    accountLoc = mosp.value[0];
+                    Console.WriteLine("updateLocalAccountPassword : " + person.login + " FOUND!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("updateLocalAccountPassword : " + person.login + " NOT FOUND...");
+            }
+            accountLoc.password = person.password;
+            services.MMCoreServiceMailBoxAccount.update(accountLoc);
         }
         private static bool verifyLocalAccountExist(MMCoreConnector.WRAccount.person person)
         {
@@ -270,60 +271,133 @@ namespace MMCoreIntegrationTests.Tests
             return res;
         }
 
-        private static void findSentMessages(MMCoreConnector.WRAccount.person receiver)
+        public void setUpConnector()
         {
-            Console.WriteLine("findSentMessages. RCV: " + receiver.login);
-            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = null;
-
-            MMCoreConnector.WRQueueManagement.mproxyOperationStatusStrings moss = services.MMCoreServiceQueueManagement.getMessageIds(receiver.login);
-            Console.WriteLine("RESULT: " + moss.operationResult + " INFO: " + moss.detailedInfo);
-            if (moss.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_OK))
-            {
-                Console.WriteLine("OK");
-            }
-            else
-            {
-                Console.WriteLine("Failed to get ids...");
-            }
-            string[] allIds = moss.value;
-            //very stupid method to wait for a msg...
-            System.Threading.Thread.Sleep(20);
-            foreach (string id in allIds)
-            {
-                Console.WriteLine("FOUND: " + id);
-                int msgId = Convert.ToInt32(id);
-                MMCoreConnector.WRQueueManagement.mproxyOperationStatusIMessage mosim = services.MMCoreServiceQueueManagement.getIMessageById(msgId);
-                if (mosim.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_OK))
-                {
-                    Console.WriteLine("OK, got integration message");
-                    MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage[] mims = mosim.value;
-                    mim = mims[0];
-                    if (mim != null)
-                    {
-                        Console.WriteLine("MSG : " + mim.mproxyXMLMessage);
-                        int len = mim.mproxyAttachements.Length;
-                        for (int i = 0; i < len; i++)
-                        {
-                            MMCoreConnector.WRQueueManagement.mproxyAttachment mpa = mim.mproxyAttachements[i];
-                            byte[] content = mpa.content;
-                            string name = mpa.name;
-                            Console.WriteLine("Attachement name: " + name + ";  Content  " + content.Length);
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Failed to get a message");
-                }
-            }
-        }
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Starting test 01 (Create, Send, Receive)");
             CMPMedica.MMCoreConnector.Factories.MMCoreSettingsFactory.ConnectionSettings.Settings.Add("MMCSRVC_MMCORE_HOST", "localhost");
             CMPMedica.MMCoreConnector.Factories.MMCoreSettingsFactory.ConnectionSettings.Settings.Add("MMCSRVC_MMCORE_PORT", "8088");
             services = MMCoreServicesFactory.Services;
             services.SetupServices();
+        }
+
+
+        public static string sendIntMessage(MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim, MMCoreConnector.WRQueueManagement.mailBoxAccountType mbat)
+        {
+            string res = "";
+            MMCoreConnector.WRQueueManagement.mproxyOperationStatus mos = services.MMCoreServiceQueueManagement.sendMessage(mim, mbat);
+            if (mos.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("SEND Failed!");
+            }
+            res = mos.operationOutputValue;
+            return res;
+        }
+        private void verifyNoError(string accountId, string msgId)
+        {
+            Console.WriteLine("CHECK for errors. SENT MSG ID: " + msgId);
+            MMCoreConnector.WRQueueManagement.mproxyOperationStatusIMessage msintm = services.MMCoreServiceQueueManagement.getIMessageById(accountId, msgId, MMCoreConnector.WRQueueManagement.mailBoxType.SENTBOX);
+            if (msintm.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("Can't get the message: " + msgId + "   " + msintm.detailedInfo);
+            }
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = msintm.value[0];
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessageError err = mim.error;
+            if (err != null)
+            {
+                throw new Exception("The message has an error:" + err.mproxyError + "; " + err.rootCause);
+            }
+            else
+            {
+                Console.WriteLine("The MESSAGE is OK (NO ERROR)");
+            }
+        }
+        private void fetchMessage(string accountId, string id)
+        {
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = null;
+            MMCoreConnector.WRQueueManagement.mproxyOperationStatusIMessage mosim = services.MMCoreServiceQueueManagement.getIMessageById(accountId, id, MMCoreConnector.WRQueueManagement.mailBoxType.INBOX);
+            if (mosim.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("getIMessageById Failed! ERR " + mosim.operationResult);
+            }
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage[] mims = mosim.value;
+            mim = mims[0];
+
+            if (mim != null)
+            {
+                MMCoreConnector.WRQueueManagement.mproxyAttachment[] ents = mim.mproxyAttachements;
+                foreach (MMCoreConnector.WRQueueManagement.mproxyAttachment ent in ents)
+                {
+                    Console.WriteLine("ATT: " + ent.name);
+                }
+            }
+        }
+
+        private HashSet<String> receiveMessageIds(string accID)
+        {
+            MMCoreConnector.WRQueueManagement.mproxyOperationStatusStrings mosim = services.MMCoreServiceQueueManagement.getIMessageIds(accID, MMCoreConnector.WRQueueManagement.mailBoxType.INBOX);
+            if (mosim.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("receiveMessageIds Failed! ERR " + mosim.operationResult);
+            }
+            string[] strsIds = mosim.value;
+            if (strsIds == null)
+            {
+                throw new Exception("NO MESSAGE RECEIVED!");
+            }
+            HashSet<string> s = new HashSet<string>(strsIds);
+            return s;
+        }
+        private void deleteMessage(string accountId, string msgId)
+        {
+            MMCoreConnector.WRQueueManagement.mproxyOperationStatus s = services.MMCoreServiceQueueManagement.deleteIMessage(accountId, msgId, MMCoreConnector.WRQueueManagement.mailBoxType.INBOX);
+            if (s.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("DELETE FAILED from INBOX. ID " + msgId);
+            }
+            s = services.MMCoreServiceQueueManagement.deleteIMessage(accountId, msgId, MMCoreConnector.WRQueueManagement.mailBoxType.SENTBOX);
+            if (s.operationResult.Equals(MMCoreConnector.WRQueueManagement.mproxyOperationResult.MPROXY_RESULT_FAILED))
+            {
+                throw new Exception("DELETE FAILED from SENTBOX ID " + msgId);
+            }
+        }
+        public MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage createTestIntMessage()
+        {
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = new MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage();
+            destSender = new MMCoreConnector.WRQueueManagement.destination();
+            destSender.ApplicationID = string.Empty;
+            destSender.Value = sender.login;
+            destSender.Type = string.Empty;
+
+            MMCoreConnector.WRQueueManagement.destination destReceiver1 = new MMCoreConnector.WRQueueManagement.destination();
+            destReceiver1.ApplicationID = string.Empty;
+            destReceiver1.Value = receiver.login;
+            destReceiver1.Type = string.Empty;
+            destReceiver[0] = destReceiver1;
+
+            mim.sender = (destSender);
+            mim.receiver = (destReceiver);
+            MMCoreConnector.WRQueueManagement.mproxyAttachment[] mproxyAttachements = new MMCoreConnector.WRQueueManagement.mproxyAttachment[] { null };
+            MMCoreConnector.WRQueueManagement.mproxyAttachment ma = new MMCoreConnector.WRQueueManagement.mproxyAttachment();
+            ma.attachmentId = (attachmentId);
+            ma.content = (content);
+            ma.name = (name);
+            mproxyAttachements[0] = ma;
+            mim.mproxyAttachements = (mproxyAttachements);
+            return mim;
+        }
+        static void Main(string[] args)
+        {
+            MMCoreIntTest01 test = new MMCoreIntTest01();
+            test.mmCoreMainTest();
+            EHBoxMiniLab.Tests.EHBoxMiniLabBasic ehb = new EHBoxMiniLab.Tests.EHBoxMiniLabBasic();
+            //ehb.testSendReceiveBasicTest();
+        }
+        public void mmCoreMainTest()
+        {
+            Console.WriteLine("Starting test 01 (Create, Send, Receive)");
+            //Set up connector settings. Host = localhost (where the mproxy/mmcore is installed) port =8088
+            setUpConnector();
+            //Content to be sent
+            content = System.Text.ASCIIEncoding.ASCII.GetBytes(contentStr);
 
             initializeSenderPersonalData();
             initializeReceiverPersonalData();
@@ -338,6 +412,8 @@ namespace MMCoreIntegrationTests.Tests
             {
                 remoteReceiver = createServerAccount(receiver);
             }
+            updateLocalPassword(remoteReceiver, receiver.password);
+            updateLocalPassword(remoteSender, sender.password);
             receiver = remoteReceiver;
             sender = remoteSender;
 
@@ -351,8 +427,29 @@ namespace MMCoreIntegrationTests.Tests
                 createLocalAccount(receiver);
                 certify(receiver);
             }
-            sendMessage(sender, receiver);
-            findSentMessages(receiver);
+
+            MMCoreConnector.WRQueueManagement.mproxyIntegrationMessage mim = createTestIntMessage();
+
+            string msgId = sendIntMessage(mim, MMCoreConnector.WRQueueManagement.mailBoxAccountType.MAILBOX_MEDIBRIDGE_MMCORE);
+            Console.WriteLine("SENT MSG ID: " + msgId);
+            verifyNoError(sender.login, msgId);
+            System.Threading.Thread.Sleep(10000);
+            HashSet<string> msgIds = receiveMessageIds(receiver.login);
+            if (msgIds.Contains(msgId))
+            {
+                Console.WriteLine("The MESSAGE:" + msgId + " is received");
+            }
+            else
+            {
+                throw new Exception("The MESSAGE:" + msgId + " is NOT received!");
+            }
+            fetchMessage(receiver.login, msgId);
+            deleteMessage(receiver.login, msgId);
+        }
+
+        private void updateLocalPassword(MMCoreConnector.WRAccount.person person, string password)
+        {
+            person.password = password;
         }
     }
 }

@@ -215,6 +215,9 @@
     <None Include="Web References\WRAccount\mproxyOperationStatusPerson.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\WRAccount\mproxyOperationStatusStrings.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WRAccount\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

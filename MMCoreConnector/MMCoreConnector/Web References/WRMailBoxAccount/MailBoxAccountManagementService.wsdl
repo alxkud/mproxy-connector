@@ -56,17 +56,20 @@
       </xs:simpleType>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="readAll" />
   <wsdl:message name="create">
     <wsdl:part name="account" type="tns:mailBoxAccount" />
   </wsdl:message>
+  <wsdl:message name="readAll" />
   <wsdl:message name="findSWUUserLoginResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="createDefaultResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
   <wsdl:message name="readAllResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatusAccount" />
   </wsdl:message>
-  <wsdl:message name="createDefaultResponse">
+  <wsdl:message name="createMailBoxResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
   <wsdl:message name="createDefault">
@@ -82,7 +85,16 @@
   <wsdl:message name="update">
     <wsdl:part name="account" type="tns:mailBoxAccount" />
   </wsdl:message>
+  <wsdl:message name="generateMailBoxAccountIdResponse">
+    <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
   <wsdl:message name="findSWUUserLogin" />
+  <wsdl:message name="generateMailBoxAccountId">
+    <wsdl:part name="boxType" type="xsd:string" />
+    <wsdl:part name="type" type="xsd:string" />
+    <wsdl:part name="value" type="xsd:string" />
+    <wsdl:part name="applicationId" type="xsd:string" />
+  </wsdl:message>
   <wsdl:message name="createResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
   </wsdl:message>
@@ -95,6 +107,12 @@
   </wsdl:message>
   <wsdl:message name="updateResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
+  </wsdl:message>
+  <wsdl:message name="createMailBox">
+    <wsdl:part name="boxType" type="xsd:string" />
+    <wsdl:part name="type" type="xsd:string" />
+    <wsdl:part name="value" type="xsd:string" />
+    <wsdl:part name="applicationId" type="xsd:string" />
   </wsdl:message>
   <wsdl:message name="deleteResponse">
     <wsdl:part name="return" type="tns:mproxyOperationStatus" />
@@ -112,6 +130,10 @@
       <wsdl:input name="readAll" message="tns:readAll" />
       <wsdl:output name="readAllResponse" message="tns:readAllResponse" />
     </wsdl:operation>
+    <wsdl:operation name="createMailBox">
+      <wsdl:input name="createMailBox" message="tns:createMailBox" />
+      <wsdl:output name="createMailBoxResponse" message="tns:createMailBoxResponse" />
+    </wsdl:operation>
     <wsdl:operation name="findSWUUserLogin">
       <wsdl:input name="findSWUUserLogin" message="tns:findSWUUserLogin" />
       <wsdl:output name="findSWUUserLoginResponse" message="tns:findSWUUserLoginResponse" />
@@ -119,6 +141,10 @@
     <wsdl:operation name="update">
       <wsdl:input name="update" message="tns:update" />
       <wsdl:output name="updateResponse" message="tns:updateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generateMailBoxAccountId">
+      <wsdl:input name="generateMailBoxAccountId" message="tns:generateMailBoxAccountId" />
+      <wsdl:output name="generateMailBoxAccountIdResponse" message="tns:generateMailBoxAccountIdResponse" />
     </wsdl:operation>
     <wsdl:operation name="createDefault">
       <wsdl:input name="createDefault" message="tns:createDefault" />
@@ -162,6 +188,15 @@
         <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="createMailBox">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createMailBox">
+        <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="createMailBoxResponse">
+        <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="findSWUUserLogin">
       <soap:operation soapAction="" style="rpc" />
       <wsdl:input name="findSWUUserLogin">
@@ -177,6 +212,15 @@
         <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
       </wsdl:input>
       <wsdl:output name="updateResponse">
+        <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateMailBoxAccountId">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="generateMailBoxAccountId">
+        <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
+      </wsdl:input>
+      <wsdl:output name="generateMailBoxAccountIdResponse">
         <soap:body use="literal" namespace="http://operations.account.mproxy.cmp.com/" />
       </wsdl:output>
     </wsdl:operation>

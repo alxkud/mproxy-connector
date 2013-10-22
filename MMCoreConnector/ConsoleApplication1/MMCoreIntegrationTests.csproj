@@ -46,20 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EHBoxMiniLabBasic.cs" />
     <Compile Include="MMCoreIntTest01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MMCoreConnector\MMCoreConnector.csproj">
-      <Project>{56C72ED4-D1CD-4A56-B789-9A66BE520227}</Project>
-      <Name>MMCoreConnector</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\test_desc.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MMCoreConnector\MMCoreConnector.csproj">
+      <Project>{56C72ED4-D1CD-4A56-B789-9A66BE520227}</Project>
+      <Name>MMCoreConnector</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
